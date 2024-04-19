@@ -1,17 +1,32 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
+import '../../application/services/firebase_auth_service.dart';
+import '../../presentation/pages/alerts_page.dart';
+import '../../presentation/pages/forgot_password_page.dart';
+import '../../presentation/pages/home_page.dart';
+import '../../presentation/pages/projects_page.dart';
+import '../../presentation/pages/search_page.dart';
+import '../../presentation/pages/settings_page.dart';
+import '../../presentation/pages/sign_in_page.dart';
+import '../../presentation/pages/sign_up_page.dart';
+import '../../presentation/pages/tasks_page.dart';
+
 // TODO 3: manipulate views depending on user access level
 
+FirebaseAuthService auth = FirebaseAuthService();
+
 final routerDelegate = BeamerDelegate(
-  notFoundRedirectNamed: '/home', // as below
-  initialPath: '/home', // check auth status and redirect to '/home' or '/login'
+  notFoundRedirectNamed: auth.user == null ? '/sign-in' : '/home', // as below
+  initialPath: auth.user == null
+      ? '/sign-in'
+      : '/home', // check auth status and redirect to '/home' or '/login'
   locationBuilder: RoutesLocationBuilder(
     routes: {
       '/home': (context, state, data) {
         return const BeamPage(
           key: ValueKey('home'),
-          type: BeamPageType.fadeTransition,
+          type: BeamPageType.noTransition,
           title: 'Project Planner',
           child: HomePage(),
         );
@@ -20,7 +35,7 @@ final routerDelegate = BeamerDelegate(
       '/sign-in': (context, state, data) {
         return const BeamPage(
           key: ValueKey('sign-in'),
-          type: BeamPageType.fadeTransition,
+          type: BeamPageType.noTransition,
           title: 'Sign In - Plans',
           child: SignInPage(),
         );
@@ -28,7 +43,7 @@ final routerDelegate = BeamerDelegate(
       '/sign-up': (context, state, data) {
         return const BeamPage(
           key: ValueKey('sign-up'),
-          type: BeamPageType.fadeTransition,
+          type: BeamPageType.noTransition,
           title: 'Sign Up - Plans',
           child: SignUpPage(),
         );
@@ -36,7 +51,7 @@ final routerDelegate = BeamerDelegate(
       '/forgot-password': (context, state, data) {
         return const BeamPage(
           key: ValueKey('forgot-password'),
-          type: BeamPageType.fadeTransition,
+          type: BeamPageType.noTransition,
           title: 'Forgot Password - Plans',
           child: ForgotPasswordPage(),
         );

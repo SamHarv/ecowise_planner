@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// TODO 2: Forgot Password Page
+import '../../domain/utils/constants.dart';
+import '../state_management/providers.dart';
+import '../widgets/login_field_widget.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -16,18 +18,6 @@ class ForgotPasswordPage extends ConsumerStatefulWidget {
 class _ForgotPasswordPageWidgetState extends ConsumerState<ForgotPasswordPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  // Send email to reset password
-  void resetPassword() async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(
-        email: _emailController.text.trim(),
-      );
-      showMessage('Email Sent!');
-    } on Exception catch (e) {
-      showMessage(e.toString());
-    }
-  }
 
   void showMessage(String message) {
     showDialog(
@@ -55,30 +45,15 @@ class _ForgotPasswordPageWidgetState extends ConsumerState<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = ref.read(firebaseAuth);
     final mediaWidth = MediaQuery.of(context).size.width;
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: colour,
           appBar: AppBar(
-            title: appTitle,
-            backgroundColor: colour,
+            title: const Text("Reset Password"),
             automaticallyImplyLeading: false,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                child: InkWell(
-                  child: Image.asset(
-                    'images/2.png',
-                    fit: BoxFit.contain,
-                    height: 24.0,
-                  ),
-                  onTap: () => _launchUrl(),
-                ),
-              ),
-              const SizedBox(width: 8),
-            ],
           ),
           body: Center(
             child: SingleChildScrollView(
@@ -87,7 +62,11 @@ class _ForgotPasswordPageWidgetState extends ConsumerState<ForgotPasswordPage> {
                 children: [
                   const Text(
                     'Receive an email to\nreset your password',
-                    style: headingStyle,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontFamily: 'Roboto',
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   gapH20,
@@ -109,7 +88,7 @@ class _ForgotPasswordPageWidgetState extends ConsumerState<ForgotPasswordPage> {
                           Colors.white,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -121,16 +100,24 @@ class _ForgotPasswordPageWidgetState extends ConsumerState<ForgotPasswordPage> {
                             );
                           },
                         );
-                        resetPassword();
-                        Future.delayed(const Duration(seconds: 2), () {
+                        try {
+                          await auth.resetPassword(
+                            email: _emailController.text.trim(),
+                          );
+                          // ignore: use_build_context_synchronously
                           Navigator.pop(context);
-                          Beamer.of(context).beamToNamed('/home');
-                        });
+                          showMessage(
+                              'Check your email to reset your password');
+                        } catch (e) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                          showMessage(e.toString());
+                        }
                       },
                       child: const Text(
                         'Go',
                         style: TextStyle(
-                          color: colour,
+                          color: Colors.black,
                           fontSize: 18,
                           fontFamily: 'Roboto',
                         ),

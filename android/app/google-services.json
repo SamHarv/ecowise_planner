@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461261331968",
+    "project_id": "ecowise-planner",
+    "storage_bucket": "ecowise-planner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461261331968:android:6f66dd69c68553108a42e5",
+        "android_client_info": {
+          "package_name": "com.o2tech.ecowise_planner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHeHcne0pyYGv4wUY2tbZwpm1YGvljSPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

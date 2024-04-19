@@ -2,15 +2,9 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '/presentation/state_management/providers.dart';
 import '../../domain/utils/constants.dart';
 import '../widgets/login_field_widget.dart';
-
-// import '/services/firestore_service.dart';
-
-// import '/constants.dart';
-// import '/state_management/riverpod_providers.dart';
-
-// TODO 0: Adjust sign up page
 
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
@@ -22,23 +16,6 @@ class SignUpPage extends ConsumerStatefulWidget {
 class _SignUpPageState extends ConsumerState<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  // Amplify SignUp method
-
-  // Future signUp(FirestoreService db) async {
-  //   try {
-  //     UserCredential user =
-  //         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-  //       email: _emailController.text.trim(),
-  //       password: _passwordController.text.trim(),
-  //     );
-  //     // Add user with user ID from Auth to Firestore
-  //     await db.addUser(userID: user.user!.uid);
-  //     showMessage('Account created!');
-  //   } on Exception catch (e) {
-  //     showMessage(e.toString());
-  //   }
-  // }
 
   void showMessage(String message) {
     showDialog(
@@ -66,7 +43,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final db = ref.read(database);
+    final db = ref.read(firestore);
+    final auth = ref.read(firebaseAuth);
     final mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -101,26 +79,34 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                       Colors.white,
                     ),
                   ),
-                  onPressed: () {
-                    // showDialog(
-                    //   context: context,
-                    //   barrierDismissible: false,
-                    //   builder: (BuildContext context) {
-                    //     return const Center(
-                    //       child: CircularProgressIndicator(
-                    //         color: Colors.white,
-                    //       ),
-                    //     );
-                    //   },
-                    // );
-                    // signUp(db);
-                    // Future.delayed(
-                    //   const Duration(seconds: 2),
-                    //   () {
-                    //     Navigator.pop(context);
-                    Beamer.of(context).beamToNamed('/home');
-                    //   },
-                    // );
+                  onPressed: () async {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      },
+                    );
+                    try {
+                      await auth.signUp(
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text.trim(),
+                        db: db,
+                      );
+                      //ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      showMessage("User created!");
+                      //ignore: use_build_context_synchronously
+                      Beamer.of(context).beamToNamed('/home');
+                    } catch (e) {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      showMessage(e.toString());
+                    }
                   },
                   child: const Text(
                     'Go',

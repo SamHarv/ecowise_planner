@@ -35,7 +35,7 @@ class LoginFieldWidget extends ConsumerWidget {
           ),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.blueGrey,
+              color: Colors.white,
             ),
           ),
           hintText: hintText,
