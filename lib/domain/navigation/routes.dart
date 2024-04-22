@@ -31,7 +31,6 @@ final routerDelegate = BeamerDelegate(
           child: HomePage(),
         );
       },
-      // TODO 2: add auth pages
       '/sign-in': (context, state, data) {
         return const BeamPage(
           key: ValueKey('sign-in'),

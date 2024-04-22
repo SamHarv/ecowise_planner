@@ -1,15 +1,21 @@
 import 'package:beamer/beamer.dart';
 import 'package:ecowise_planner/firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '/domain/navigation/routes.dart';
+
+// TODO: Update Firestore security rules once we have real data
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.black,
+  ));
   runApp(const ProviderScope(child: EcowisePlanner()));
 }
 
@@ -25,8 +31,14 @@ class EcowisePlanner extends StatelessWidget {
       routeInformationParser: BeamerParser(),
       themeMode: ThemeMode.system,
       theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.blue,
+        primaryColor: Colors.black,
         scaffoldBackgroundColor: Colors.grey[900],
+        appBarTheme: const AppBarTheme(
+          color: Colors.black,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.black,
+          ),
+        ),
       ),
     );
   }

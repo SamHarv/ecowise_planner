@@ -19,7 +19,7 @@ class FirebaseAuthService {
         email: email,
         password: password,
       );
-      // await db.addUser(userID: userCredential.user!.uid);
+      await db.addUser(userID: userCredential.user!.uid);
       return userCredential.user;
     } catch (e) {
       rethrow;
