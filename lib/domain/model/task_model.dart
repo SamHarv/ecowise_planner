@@ -9,6 +9,7 @@ class Task {
   final String taskStatus; // for action, in progress, awaiting, complete
   final String taskDueDate;
   final String taskCreatedDate;
+  final String projectName;
   final List<Task>? subTasks;
   final List<User>? assignedTo;
   final Map<String, double>? labourCosts;
@@ -24,6 +25,7 @@ class Task {
     required this.taskStatus,
     required this.taskDueDate,
     required this.taskCreatedDate,
+    required this.projectName,
     this.subTasks,
     this.assignedTo,
     this.labourCosts,

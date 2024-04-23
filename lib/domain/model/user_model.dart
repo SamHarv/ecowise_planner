@@ -1,4 +1,5 @@
 class User {
+  final String userID;
   final String firstName;
   final String surname;
   final String email;
@@ -8,6 +9,7 @@ class User {
   final String company;
 
   User({
+    required this.userID,
     required this.firstName,
     required this.surname,
     required this.email,
