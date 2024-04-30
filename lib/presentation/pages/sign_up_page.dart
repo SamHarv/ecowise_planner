@@ -6,6 +6,8 @@ import '/presentation/state_management/providers.dart';
 import '../../domain/utils/constants.dart';
 import '../widgets/login_field_widget.dart';
 
+// TODO 1: Collect full user registration details aligned to model
+
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
 

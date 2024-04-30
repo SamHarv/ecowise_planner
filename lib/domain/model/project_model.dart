@@ -10,7 +10,8 @@ class Project {
   final String clientName;
   final List<Task>? tasks;
   final Map<String, double>? labourCosts;
-  final Map<String, double>? costs;
+  final Map<String, double>? materialCosts;
+  final double totalCosts;
   // attachments ??
 
   Project({
@@ -23,6 +24,7 @@ class Project {
     required this.clientName,
     this.tasks,
     this.labourCosts,
-    this.costs,
+    this.materialCosts,
+    required this.totalCosts,
   });
 }

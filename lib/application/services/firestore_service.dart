@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// TODO 2: Create Firestore methods for User, Project, and Task
+
 class FirestoreService {
   final CollectionReference _users =
       FirebaseFirestore.instance.collection('users');
