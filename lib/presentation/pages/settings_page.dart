@@ -1,15 +1,41 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../state_management/providers.dart';
 import '../widgets/custom_bottom_nav_bar_widget.dart';
 
 // TODO 4: add account info, pricing, settings, etc.
 
-class SettingsPage extends ConsumerWidget {
+// TODO: Add functionality to share company ID
+
+class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends ConsumerState<SettingsPage> {
+  String userName = "Loading...";
+
+  Future<void> getUserName() async {
+    final db = ref.read(firestore);
+    final auth = ref.read(firebaseAuth);
+    final user = await db.getUser(userID: auth.user!.uid);
+    final name = user.firstName;
+    setState(() {
+      userName = name;
+    });
+  }
+
+  @override
+  void initState() {
+    getUserName();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         shape: const Border(
@@ -29,7 +55,7 @@ class SettingsPage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const Text('D-Train'),
+              Text(userName),
             ],
           ),
         ),

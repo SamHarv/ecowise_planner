@@ -2,6 +2,7 @@ import 'task_model.dart';
 
 class Project {
   final String projectID;
+  final String companyID;
   final String projectTitle;
   final String projectDescription;
   final String projectStatus;
@@ -16,6 +17,7 @@ class Project {
 
   Project({
     required this.projectID,
+    required this.companyID,
     required this.projectTitle,
     required this.projectDescription,
     required this.projectStatus,

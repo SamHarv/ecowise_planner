@@ -210,6 +210,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                                   );
                                 },
                               );
+                              // TODO: Check if company is '' and beam to /join-company if so
                               try {
                                 await auth.signIn(
                                   email: _emailController.text.trim(),

@@ -1,20 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../state_management/providers.dart';
 import '../widgets/custom_bottom_nav_bar_widget.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  String companyName = "Loading...";
+  Future<void> getCompanyName() async {
+    final db = ref.read(firestore);
+    final auth = ref.read(firebaseAuth);
+    final user = await db.getUser(userID: auth.user!.uid);
+    final companyID = user.companyID;
+    final company = await db.getCompany(companyID: companyID);
+    final name = company.name;
+    setState(() {
+      companyName = name;
+    });
+  }
+
+  @override
+  void initState() {
+    getCompanyName();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         shape: const Border(
           bottom: BorderSide(color: Colors.grey, width: 1.0),
         ),
         centerTitle: false,
-        title: const Text('Home'),
+        title: Text(companyName), // TODO: Get company name from db
       ),
       body: SingleChildScrollView(
         child: SizedBox(

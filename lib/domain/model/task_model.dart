@@ -10,7 +10,7 @@ class Task {
   final String taskDueDate;
   final String taskCreatedDate;
   final List<Task>? subTasks;
-  final List<User>? assignedTo;
+  final List<UserModel>? assignedTo;
   final Map<String, double>?
       labourCosts; // need to be able to generate to spreadsheet
   final Map<String, double>? materialCosts;

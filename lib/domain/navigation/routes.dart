@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../application/services/firebase_auth_service.dart';
 import '../../presentation/pages/alerts_page.dart';
+import '../../presentation/pages/company_registration_page.dart';
 import '../../presentation/pages/forgot_password_page.dart';
 import '../../presentation/pages/home_page.dart';
+import '../../presentation/pages/join_company_page.dart';
 import '../../presentation/pages/projects_page.dart';
 import '../../presentation/pages/search_page.dart';
 import '../../presentation/pages/settings_page.dart';
@@ -35,7 +37,7 @@ final routerDelegate = BeamerDelegate(
         return const BeamPage(
           key: ValueKey('sign-in'),
           type: BeamPageType.noTransition,
-          title: 'Sign In - Plans',
+          title: 'Sign In',
           child: SignInPage(),
         );
       },
@@ -43,7 +45,7 @@ final routerDelegate = BeamerDelegate(
         return const BeamPage(
           key: ValueKey('sign-up'),
           type: BeamPageType.noTransition,
-          title: 'Sign Up - Plans',
+          title: 'Sign Up',
           child: SignUpPage(),
         );
       },
@@ -51,8 +53,24 @@ final routerDelegate = BeamerDelegate(
         return const BeamPage(
           key: ValueKey('forgot-password'),
           type: BeamPageType.noTransition,
-          title: 'Forgot Password - Plans',
+          title: 'Forgot Password',
           child: ForgotPasswordPage(),
+        );
+      },
+      '/register-company': (context, state, data) {
+        return const BeamPage(
+          key: ValueKey('register-company'),
+          type: BeamPageType.noTransition,
+          title: 'Company Registration',
+          child: CompanyRegistrationPage(),
+        );
+      },
+      '/join-company': (context, state, data) {
+        return const BeamPage(
+          key: ValueKey('join-company'),
+          type: BeamPageType.noTransition,
+          title: 'Join a Company',
+          child: JoinCompanyPage(),
         );
       },
       '/tasks': (context, state, data) {

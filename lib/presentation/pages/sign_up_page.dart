@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:ecowise_planner/domain/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +19,8 @@ class SignUpPage extends ConsumerStatefulWidget {
 class _SignUpPageState extends ConsumerState<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _surnameController = TextEditingController();
 
   void showMessage(String message) {
     showDialog(
@@ -40,6 +43,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _firstNameController.dispose();
+    _surnameController.dispose();
     super.dispose();
   }
 
@@ -58,6 +63,20 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              LoginFieldWidget(
+                textController: _firstNameController,
+                obscurePassword: false,
+                hintText: 'First Name',
+                mediaWidth: mediaWidth,
+              ),
+              gapH20,
+              LoginFieldWidget(
+                textController: _surnameController,
+                obscurePassword: false,
+                hintText: 'Surname',
+                mediaWidth: mediaWidth,
+              ),
+              gapH20,
               LoginFieldWidget(
                 textController: _emailController,
                 obscurePassword: false,
@@ -97,13 +116,20 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                       await auth.signUp(
                         email: _emailController.text.trim(),
                         password: _passwordController.text.trim(),
-                        db: db,
                       );
+                      final user = UserModel(
+                        userID: auth.user!.uid,
+                        companyID: '',
+                        firstName: _firstNameController.text.trim(),
+                        surname: _surnameController.text.trim(),
+                        email: _emailController.text.trim(),
+                      );
+                      await db.addUser(user: user);
                       //ignore: use_build_context_synchronously
                       Navigator.pop(context);
                       showMessage("User created!");
                       //ignore: use_build_context_synchronously
-                      Beamer.of(context).beamToNamed('/home');
+                      Beamer.of(context).beamToNamed('/join-company');
                     } catch (e) {
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
