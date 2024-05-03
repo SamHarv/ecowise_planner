@@ -1,18 +1,18 @@
 import 'package:beamer/beamer.dart';
-import 'package:ecowise_planner/presentation/pages/new_project_page.dart';
+import 'package:ecowise_planner/presentation/pages/project_pages/new_project_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../application/services/firebase_auth_service.dart';
 import '../../presentation/pages/alerts_page.dart';
-import '../../presentation/pages/company_registration_page.dart';
-import '../../presentation/pages/forgot_password_page.dart';
+import '../../presentation/pages/company_rego_pages/company_registration_page.dart';
+import '../../presentation/pages/auth_pages/forgot_password_page.dart';
 import '../../presentation/pages/home_page.dart';
-import '../../presentation/pages/join_company_page.dart';
-import '../../presentation/pages/projects_page.dart';
+import '../../presentation/pages/company_rego_pages/join_company_page.dart';
+import '../../presentation/pages/project_pages/projects_page.dart';
 import '../../presentation/pages/search_page.dart';
 import '../../presentation/pages/settings_page.dart';
-import '../../presentation/pages/sign_in_page.dart';
-import '../../presentation/pages/sign_up_page.dart';
+import '../../presentation/pages/auth_pages/sign_in_page.dart';
+import '../../presentation/pages/auth_pages/sign_up_page.dart';
 import '../../presentation/pages/tasks_page.dart';
 
 // TODO 99: manipulate views depending on user access level

@@ -1,24 +1,22 @@
 import 'package:beamer/beamer.dart';
-import 'package:ecowise_planner/domain/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '/presentation/state_management/providers.dart';
-import '../../domain/utils/constants.dart';
-import '../widgets/login_field_widget.dart';
+import '../../../domain/utils/constants.dart';
+import '../../state_management/providers.dart';
+import '../../widgets/login_field_widget.dart';
+import '/domain/model/user_model.dart';
 
-class SignUpPage extends ConsumerStatefulWidget {
-  const SignUpPage({super.key});
+class JoinCompanyPage extends ConsumerStatefulWidget {
+  const JoinCompanyPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _JoinCompanyPageState();
 }
 
-class _SignUpPageState extends ConsumerState<SignUpPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _firstNameController = TextEditingController();
-  final _surnameController = TextEditingController();
+class _JoinCompanyPageState extends ConsumerState<JoinCompanyPage> {
+  final _companyCodeController = TextEditingController();
 
   void showMessage(String message) {
     showDialog(
@@ -39,22 +37,29 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _firstNameController.dispose();
-    _surnameController.dispose();
+    _companyCodeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final db = ref.read(firestore);
-    final auth = ref.read(firebaseAuth);
     final mediaWidth = MediaQuery.of(context).size.width;
+    final auth = ref.read(firebaseAuth);
+    final db = ref.read(firestore);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign Up"),
-        automaticallyImplyLeading: false,
+        title: const Text("Join Company"),
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            auth.signOut();
+            Beamer.of(context).beamToNamed('/sign-up');
+          },
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -62,30 +67,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               LoginFieldWidget(
-                textController: _firstNameController,
+                textController: _companyCodeController,
                 obscurePassword: false,
-                hintText: 'First Name',
-                mediaWidth: mediaWidth,
-              ),
-              gapH20,
-              LoginFieldWidget(
-                textController: _surnameController,
-                obscurePassword: false,
-                hintText: 'Surname',
-                mediaWidth: mediaWidth,
-              ),
-              gapH20,
-              LoginFieldWidget(
-                textController: _emailController,
-                obscurePassword: false,
-                hintText: 'Email',
-                mediaWidth: mediaWidth,
-              ),
-              gapH20,
-              LoginFieldWidget(
-                textController: _passwordController,
-                obscurePassword: true,
-                hintText: 'Password',
+                hintText: 'Company Code',
                 mediaWidth: mediaWidth,
               ),
               gapH20,
@@ -111,23 +95,21 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                       },
                     );
                     try {
-                      await auth.signUp(
-                        email: _emailController.text.trim(),
-                        password: _passwordController.text.trim(),
-                      );
-                      final user = UserModel(
+                      final currentUser =
+                          await db.getUser(userID: auth.user!.uid);
+                      await db.updateUser(
+                          user: UserModel(
+                        companyID: _companyCodeController.text.trim(),
+                        email: currentUser.email,
+                        firstName: currentUser.firstName,
+                        surname: currentUser.surname,
                         userID: auth.user!.uid,
-                        companyID: '',
-                        firstName: _firstNameController.text.trim(),
-                        surname: _surnameController.text.trim(),
-                        email: _emailController.text.trim(),
-                      );
-                      await db.addUser(user: user);
-                      //ignore: use_build_context_synchronously
+                      ));
+                      // ignore: use_build_context_synchronously
                       Navigator.pop(context);
-                      showMessage("User created!");
-                      //ignore: use_build_context_synchronously
-                      Beamer.of(context).beamToNamed('/join-company');
+                      showMessage("Success!");
+                      // ignore: use_build_context_synchronously
+                      Beamer.of(context).beamToNamed('/home');
                     } catch (e) {
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
@@ -147,18 +129,16 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
               gapH20,
               TextButton(
                 onPressed: () {
-                  Beamer.of(context).beamToNamed('/sign-in');
+                  Beamer.of(context).beamToNamed('/register-company');
                 },
                 child: const Text(
-                  'Sign In',
+                  'Don\'t have a code? Register a Company',
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 80,
-              ),
+              gapH20,
             ],
           ),
         ),

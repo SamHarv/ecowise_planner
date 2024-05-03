@@ -3,21 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/utils/constants.dart';
-import '../state_management/providers.dart';
-import '../widgets/login_field_widget.dart';
-import '/domain/model/user_model.dart';
+import '../../../domain/utils/constants.dart';
+import '../../state_management/providers.dart';
+import '../../widgets/login_field_widget.dart';
 
-class JoinCompanyPage extends ConsumerStatefulWidget {
-  const JoinCompanyPage({super.key});
+class ForgotPasswordPage extends ConsumerStatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _JoinCompanyPageState();
+      _ForgotPasswordPageWidgetState();
 }
 
-class _JoinCompanyPageState extends ConsumerState<JoinCompanyPage> {
-  final _companyCodeController = TextEditingController();
+class _ForgotPasswordPageWidgetState extends ConsumerState<ForgotPasswordPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   void showMessage(String message) {
     showDialog(
@@ -38,45 +38,47 @@ class _JoinCompanyPageState extends ConsumerState<JoinCompanyPage> {
 
   @override
   void dispose() {
-    _companyCodeController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final mediaWidth = MediaQuery.of(context).size.width;
     final auth = ref.read(firebaseAuth);
-    final db = ref.read(firestore);
+    final mediaWidth = MediaQuery.of(context).size.width;
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Join Company"),
-            automaticallyImplyLeading: true,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                auth.signOut();
-                Beamer.of(context).beamToNamed('/sign-up');
-              },
-            ),
+            title: const Text("Reset Password"),
+            automaticallyImplyLeading: false,
           ),
           body: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  LoginFieldWidget(
-                    textController: _companyCodeController,
-                    obscurePassword: false,
-                    hintText: 'Company Code',
-                    mediaWidth: mediaWidth,
+                  const Text(
+                    'Receive an email to\nreset your password',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontFamily: 'Roboto',
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                   gapH20,
+                  LoginFieldWidget(
+                    textController: _emailController,
+                    obscurePassword: false,
+                    hintText: 'Email',
+                    mediaWidth: mediaWidth,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     width: mediaWidth * 0.8,
                     height: 60,
@@ -99,21 +101,13 @@ class _JoinCompanyPageState extends ConsumerState<JoinCompanyPage> {
                           },
                         );
                         try {
-                          final currentUser =
-                              await db.getUser(userID: auth.user!.uid);
-                          await db.updateUser(
-                              user: UserModel(
-                            companyID: _companyCodeController.text.trim(),
-                            email: currentUser.email,
-                            firstName: currentUser.firstName,
-                            surname: currentUser.surname,
-                            userID: auth.user!.uid,
-                          ));
+                          await auth.resetPassword(
+                            email: _emailController.text.trim(),
+                          );
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
-                          showMessage("Success!");
-                          // ignore: use_build_context_synchronously
-                          Beamer.of(context).beamToNamed('/home');
+                          showMessage(
+                              'Check your email to reset your password');
                         } catch (e) {
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);
@@ -133,21 +127,24 @@ class _JoinCompanyPageState extends ConsumerState<JoinCompanyPage> {
                   gapH20,
                   TextButton(
                     onPressed: () {
-                      Beamer.of(context).beamToNamed('/register-company');
+                      Beamer.of(context).beamToNamed('/sign-in');
                     },
                     child: const Text(
-                      'Don\'t have a code? Register a Company',
+                      'Sign In',
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  gapH20,
+                  const SizedBox(
+                    height: 80,
+                  ),
                 ],
               ),
             ),
           ),
         );
+        // );
       },
     );
   }

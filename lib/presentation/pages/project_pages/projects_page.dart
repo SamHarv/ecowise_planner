@@ -2,7 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../widgets/custom_bottom_nav_bar_widget.dart';
+import '../../widgets/custom_bottom_nav_bar_widget.dart';
 
 // TODO 55: add search bar for projects
 // TODO 11: add view project page with client. Add options to:

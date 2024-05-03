@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginFieldWidget extends ConsumerWidget {
+class CustomFieldWidget extends ConsumerWidget {
   final TextEditingController textController;
-  final bool obscurePassword;
   final String hintText;
-  final double mediaWidth;
+  final TextCapitalization textCapitalization;
+  final double width;
 
-  const LoginFieldWidget({
+  const CustomFieldWidget({
     super.key,
     required this.textController,
-    required this.obscurePassword,
     required this.hintText,
-    required this.mediaWidth,
+    required this.textCapitalization,
+    required this.width,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      width: mediaWidth * 0.8,
-      height: 60,
+      width: width,
       child: TextField(
         controller: textController,
         textInputAction: TextInputAction.next,
-        textCapitalization: TextCapitalization.words,
-        obscureText: obscurePassword,
+        textCapitalization: textCapitalization,
         decoration: InputDecoration(
+          labelText: hintText,
+          floatingLabelStyle: TextStyle(
+            color: Colors.grey[500],
+          ),
           border: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.grey,
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(64),
             ),
           ),
           focusedBorder: const OutlineInputBorder(
