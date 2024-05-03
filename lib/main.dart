@@ -6,7 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '/domain/navigation/routes.dart';
 
-// TODO: Update Firestore security rules once we have real data
+// TODO 99: Update Firestore security rules once we have real data
+
+// TODO 55: Add timesheets functionality for staff - under settings?
+// Simply list dates and enter hours worked
+// Then add project to the and option to add notes
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:ecowise_planner/presentation/pages/new_project_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../application/services/firebase_auth_service.dart';
@@ -14,7 +15,7 @@ import '../../presentation/pages/sign_in_page.dart';
 import '../../presentation/pages/sign_up_page.dart';
 import '../../presentation/pages/tasks_page.dart';
 
-// TODO 3: manipulate views depending on user access level
+// TODO 99: manipulate views depending on user access level
 
 FirebaseAuthService auth = FirebaseAuthService();
 
@@ -89,6 +90,14 @@ final routerDelegate = BeamerDelegate(
           type: BeamPageType.noTransition,
           title: 'Projects',
           child: ProjectsPage(),
+        );
+      },
+      '/new-project': (context, state, data) {
+        return const BeamPage(
+          key: ValueKey('new-project'),
+          type: BeamPageType.noTransition,
+          title: 'New Project',
+          child: NewProjectPage(),
         );
       },
       '/settings': (context, state, data) {

@@ -19,6 +19,4 @@ class Company {
   String toString() {
     return 'Company{companyID: $companyID, name: $name, employees: $employees, projects: $projects}';
   }
-
-  // TODO: Get employees - every user with companyID
 }

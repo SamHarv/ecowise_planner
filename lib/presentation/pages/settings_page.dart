@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../state_management/providers.dart';
 import '../widgets/custom_bottom_nav_bar_widget.dart';
 
-// TODO 4: add account info, pricing, settings, etc.
+// TODO 99: add account info, pricing, settings, etc.
 
-// TODO: Add functionality to share company ID
+// TODO 55: Add functionality to share company ID
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});

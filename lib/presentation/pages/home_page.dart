@@ -39,7 +39,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           bottom: BorderSide(color: Colors.grey, width: 1.0),
         ),
         centerTitle: false,
-        title: Text(companyName), // TODO: Get company name from db
+        title: Text(companyName),
       ),
       body: SingleChildScrollView(
         child: SizedBox(

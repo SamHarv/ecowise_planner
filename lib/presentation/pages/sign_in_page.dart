@@ -210,7 +210,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                                   );
                                 },
                               );
-                              // TODO: Check if company is '' and beam to /join-company if so
+
                               try {
                                 await auth.signIn(
                                   email: _emailController.text.trim(),
@@ -219,18 +219,20 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                                 // ignore: use_build_context_synchronously
                                 Navigator.pop(context);
                                 showMessage("User signed in!");
-                                // ignore: use_build_context_synchronously
-                                Beamer.of(context).beamToNamed('/home');
+                                final user =
+                                    await db.getUser(userID: auth.user!.uid);
+                                user.companyID == ''
+                                    // ignore: use_build_context_synchronously
+                                    ? Beamer.of(context)
+                                        .beamToNamed('/join-company')
+                                    :
+                                    // ignore: use_build_context_synchronously
+                                    Beamer.of(context).beamToNamed('/home');
                               } catch (e) {
                                 // ignore: use_build_context_synchronously
                                 Navigator.pop(context);
                                 showMessage(e.toString());
                               }
-
-                              // } finally {
-                              //   Navigator.pop(context);
-                              //   Beamer.of(context).beamToNamed('/home');
-                              // }
                             },
                             child: const Text(
                               'Go',

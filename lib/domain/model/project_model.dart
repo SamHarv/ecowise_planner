@@ -1,29 +1,43 @@
+import 'client_model.dart';
 import 'task_model.dart';
+
+// TODO 00: Go through screenshots to refine model
 
 class Project {
   final String projectID;
   final String companyID;
   final String projectTitle;
-  final String projectDescription;
+  final String projectDescription; // Hybrid home, etc.
+  final String projectAddress1;
+  final String projectCity;
+  final String projectState;
+  final String projectPostCode;
   final String projectStatus;
   final String projectDueDate;
   final String projectCreatedDate;
-  final String clientName;
+  final List<Client> clients;
+  final List<String>? projectNotes;
   final List<Task>? tasks;
   final Map<String, double>? labourCosts;
   final Map<String, double>? materialCosts;
   final double totalCosts;
   // attachments ??
+  // Quotes & Invoices??
 
   Project({
     required this.projectID,
     required this.companyID,
     required this.projectTitle,
     required this.projectDescription,
+    required this.projectAddress1,
+    required this.projectCity,
+    required this.projectState,
+    required this.projectPostCode,
     required this.projectStatus,
     required this.projectDueDate,
     required this.projectCreatedDate,
-    required this.clientName,
+    required this.clients,
+    this.projectNotes,
     this.tasks,
     this.labourCosts,
     this.materialCosts,
