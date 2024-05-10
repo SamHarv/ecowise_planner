@@ -1,7 +1,4 @@
-import 'client_model.dart';
 import 'task_model.dart';
-
-// TODO 00: Go through screenshots to refine model
 
 class Project {
   final String projectID;
@@ -15,7 +12,12 @@ class Project {
   final String projectStatus;
   final String projectDueDate;
   final String projectCreatedDate;
-  final List<Client> clients;
+  final String primaryClientName;
+  final String primaryClientEmail;
+  final String primaryClientPhone;
+  final String? secondaryClientName;
+  final String? secondaryClientEmail;
+  final String? secondaryClientPhone;
   final List<String>? projectNotes;
   final List<Task>? tasks;
   final Map<String, double>? labourCosts;
@@ -36,7 +38,12 @@ class Project {
     required this.projectStatus,
     required this.projectDueDate,
     required this.projectCreatedDate,
-    required this.clients,
+    required this.primaryClientName,
+    required this.primaryClientEmail,
+    required this.primaryClientPhone,
+    this.secondaryClientName,
+    this.secondaryClientEmail,
+    this.secondaryClientPhone,
     this.projectNotes,
     this.tasks,
     this.labourCosts,

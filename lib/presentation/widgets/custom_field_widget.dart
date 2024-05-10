@@ -6,6 +6,7 @@ class CustomFieldWidget extends ConsumerWidget {
   final String hintText;
   final TextCapitalization textCapitalization;
   final double width;
+  final TextInputType keyboardType;
 
   const CustomFieldWidget({
     super.key,
@@ -13,6 +14,7 @@ class CustomFieldWidget extends ConsumerWidget {
     required this.hintText,
     required this.textCapitalization,
     required this.width,
+    required this.keyboardType,
   });
 
   @override
@@ -23,6 +25,7 @@ class CustomFieldWidget extends ConsumerWidget {
         controller: textController,
         textInputAction: TextInputAction.next,
         textCapitalization: textCapitalization,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: hintText,
           floatingLabelStyle: TextStyle(

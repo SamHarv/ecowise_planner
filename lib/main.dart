@@ -35,6 +35,10 @@ class EcowisePlanner extends StatelessWidget {
       routeInformationParser: BeamerParser(),
       themeMode: ThemeMode.system,
       theme: ThemeData.dark().copyWith(
+        colorScheme: const ColorScheme.dark(
+          primary: Colors.green,
+          secondary: Colors.green,
+        ),
         primaryColor: Colors.black,
         scaffoldBackgroundColor: Colors.grey[900],
         appBarTheme: const AppBarTheme(

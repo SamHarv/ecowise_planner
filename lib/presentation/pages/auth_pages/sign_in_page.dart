@@ -173,6 +173,18 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        const SizedBox(height: 60),
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(32),
+                            child: Image.asset(
+                              'images/ecowise.png',
+                              width: mediaWidth * 0.6,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 60),
                         LoginFieldWidget(
                           textController: _emailController,
                           obscurePassword: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../domain/utils/constants.dart';
 import '../state_management/providers.dart';
 import '../widgets/custom_bottom_nav_bar_widget.dart';
 
@@ -12,6 +13,7 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  // TODO 00: Fix company name not loading
   String companyName = "Loading...";
   Future<void> getCompanyName() async {
     final db = ref.read(firestore);
@@ -33,6 +35,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         shape: const Border(
@@ -44,86 +47,97 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(24),
+          child: Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Container(
-                    height: 300,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        width: 1.0,
-                        color: Colors.grey,
-                      ),
+                gapH20,
+                gapH20,
+                gapH20,
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(32),
+                    child: Image.asset(
+                      'images/ecowise.png',
+                      width: mediaWidth * 0.7,
+                      fit: BoxFit.cover,
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Tasks'),
-                            Text('- Task title/ description'),
-                            Text('- Daily/ weekly/ monthly/ yearly view'),
-                            Text('- Planned/ in progress/ complete'),
-                            Text('- Stakeholder information'),
-                            Text('- Start date, due date'),
-                            Text('- Assigned to'),
-                            Text('- Task costings - link to project costings'),
-                            Text('- Employment labour'),
-                            Text('- Gantt chart and calendar access under '
-                                'projects and tasks pages'),
-                            Text('- Link to project'),
-                            Text('- Search Functionality'),
-                          ],
-                        ),
+                  ),
+                ),
+                gapH20,
+                gapH20,
+                gapH20,
+                Container(
+                  height: 300,
+                  width: mediaWidth * 0.8,
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      width: 1.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Tasks'),
+                          Text('- Task title/ description'),
+                          Text('- Daily/ weekly/ monthly/ yearly view'),
+                          Text('- Planned/ in progress/ complete'),
+                          Text('- Stakeholder information'),
+                          Text('- Start date, due date'),
+                          Text('- Assigned to'),
+                          Text('- Task costings - link to project costings'),
+                          Text('- Employment labour'),
+                          Text('- Gantt chart and calendar access under '
+                              'projects and tasks pages'),
+                          Text('- Link to project'),
+                          Text('- Search Functionality'),
+                        ],
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Container(
-                    height: 300,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        width: 1.0,
-                        color: Colors.grey,
-                      ),
+                gapH20,
+                Container(
+                  height: 300,
+                  width: mediaWidth * 0.8,
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      width: 1.0,
+                      color: Colors.grey,
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Projects'),
-                            Text('- High level description'),
-                            Text('- Stakeholder information'),
-                            Text('- Start date, due date'),
-                            Text('- Budget'),
-                            Text('- Job costings under projects page'),
-                            Text('- Employment labour'),
-                            Text('- Gantt chart and calendar access under '
-                                'projects and tasks pages'),
-                            Text('- Client view'),
-                            Text('- Link to tasks'),
-                            Text('- Search Functionality'),
-                          ],
-                        ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Projects'),
+                          Text('- High level description'),
+                          Text('- Stakeholder information'),
+                          Text('- Start date, due date'),
+                          Text('- Budget'),
+                          Text('- Job costings under projects page'),
+                          Text('- Employment labour'),
+                          Text('- Gantt chart and calendar access under '
+                              'projects and tasks pages'),
+                          Text('- Client view'),
+                          Text('- Link to tasks'),
+                          Text('- Search Functionality'),
+                        ],
                       ),
                     ),
                   ),
                 ),
+                gapH20,
               ],
             ),
           ),
