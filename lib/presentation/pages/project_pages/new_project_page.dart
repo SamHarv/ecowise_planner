@@ -341,9 +341,6 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
                       },
                     );
 
-                    // TODO 00: Change below to logic to create client/s and project
-                    // then beam back to projects page
-
                     // Validate inputs
                     try {
                       if (validate

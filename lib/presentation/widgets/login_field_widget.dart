@@ -23,7 +23,6 @@ class LoginFieldWidget extends ConsumerWidget {
       child: TextField(
         controller: textController,
         textInputAction: TextInputAction.next,
-        textCapitalization: TextCapitalization.words,
         obscureText: obscurePassword,
         decoration: InputDecoration(
           border: const OutlineInputBorder(

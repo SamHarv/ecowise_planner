@@ -13,7 +13,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  // TODO 00: Fix company name not loading
   String companyName = "Loading...";
   Future<void> getCompanyName() async {
     final db = ref.read(firestore);

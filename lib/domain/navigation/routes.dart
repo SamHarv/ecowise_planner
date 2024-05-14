@@ -100,6 +100,16 @@ final routerDelegate = BeamerDelegate(
           child: NewProjectPage(),
         );
       },
+      // TODO 00: implement below page
+      // '/project-page': (context, state, data) {
+      //   return BeamPage(
+      //     key: const ValueKey('project-page'),
+      //     type: BeamPageType.noTransition,
+      //     title: '$data.projectTitle',
+      //     child:
+      //         ProjectPage(project: data as Project, projectID: data.projectID),
+      //   );
+      // },
       '/settings': (context, state, data) {
         return const BeamPage(
           key: ValueKey('settings'),

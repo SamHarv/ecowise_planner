@@ -138,6 +138,16 @@ class FirestoreService {
     }
   }
 
+  // Get companyID from userID
+  Future<String> getCompanyID({required String userID}) async {
+    try {
+      final user = await _users.doc(userID).get();
+      return user['companyID'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // Create a project
   Future<void> addProject({required Project project}) async {
     try {
@@ -213,8 +223,9 @@ class FirestoreService {
   }
 
   // Get projects
-  Future<List<Project>> getProjects({required String companyID}) async {
+  Future<List<Project>> getProjects({required String userID}) async {
     try {
+      final companyID = await getCompanyID(userID: userID);
       final projects =
           await _companies.doc(companyID).collection('projects').get();
       return projects.docs
@@ -236,10 +247,10 @@ class FirestoreService {
                 secondaryClientName: project['secondaryClientName'],
                 secondaryClientEmail: project['secondaryClientEmail'],
                 secondaryClientPhone: project['secondaryClientPhone'],
-                projectNotes: project['projectNotes'],
-                tasks: project['tasks'],
-                labourCosts: project['labourCosts'],
-                materialCosts: project['materialCosts'],
+                projectNotes: null,
+                tasks: null,
+                labourCosts: null,
+                materialCosts: null, // TODO 11: implement mapping
                 totalCosts: project['totalCosts'],
               ))
           .toList();
