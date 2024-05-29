@@ -3,21 +3,21 @@ import 'task_model.dart';
 class Project {
   final String projectID;
   final String companyID;
-  final String projectTitle;
-  final String projectDescription; // Hybrid home, etc.
-  final String projectAddress1;
-  final String projectCity;
-  final String projectState;
-  final String projectPostCode;
-  final String projectStatus;
-  final String projectDueDate;
+  String projectTitle;
+  String projectDescription; // Hybrid home, etc.
+  String projectAddress1;
+  String projectCity;
+  String projectState;
+  String projectPostCode;
+  String projectStatus;
+  String projectDueDate;
   final String projectCreatedDate;
-  final String primaryClientName;
-  final String primaryClientEmail;
-  final String primaryClientPhone;
-  final String? secondaryClientName;
-  final String? secondaryClientEmail;
-  final String? secondaryClientPhone;
+  String primaryClientName;
+  String primaryClientEmail;
+  String primaryClientPhone;
+  String? secondaryClientName;
+  String? secondaryClientEmail;
+  String? secondaryClientPhone;
   final List<String>? projectNotes;
   final List<Task>? tasks;
   final Map<String, double>? labourCosts;

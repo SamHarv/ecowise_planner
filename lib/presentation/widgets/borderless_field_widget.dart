@@ -5,6 +5,8 @@ class BorderlessFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final double fontSize;
+  final Function(String)? onChanged;
+  final Text? label;
 
   const BorderlessFieldWidget({
     super.key,
@@ -12,6 +14,8 @@ class BorderlessFieldWidget extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.fontSize,
+    this.onChanged,
+    this.label,
   });
 
   @override
@@ -21,12 +25,14 @@ class BorderlessFieldWidget extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
+          onChanged: onChanged,
           controller: controller,
           style: TextStyle(
             fontSize: fontSize,
             color: Colors.white,
           ),
           decoration: InputDecoration(
+            label: label,
             hintText: hintText,
             hintStyle: TextStyle(
               fontSize: fontSize,
@@ -36,7 +42,6 @@ class BorderlessFieldWidget extends StatelessWidget {
           ),
           textCapitalization: TextCapitalization.words,
           keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.next,
         ),
       ),
     );
