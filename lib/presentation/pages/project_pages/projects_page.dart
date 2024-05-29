@@ -1,5 +1,4 @@
 import 'package:beamer/beamer.dart';
-import 'package:ecowise_planner/domain/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,13 +7,6 @@ import '../../state_management/providers.dart';
 import '../../widgets/custom_bottom_nav_bar_widget.dart';
 
 // TODO 55: add search bar for projects
-// TODO 11: add view project page with client. Add options to:
-// Navigate to address with maps
-// Email the client
-// Call the client
-// Take notes
-// See costs related to project and time spent on project fir employees
-// CRUD tasks related to project
 
 class ProjectsPage extends ConsumerWidget {
   const ProjectsPage({super.key});
@@ -23,7 +15,6 @@ class ProjectsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.read(firebaseAuth);
     final db = ref.read(firestore);
-    final user = db.getUser(userID: auth.user!.uid);
 
     Future<List<Project>> getProjects() async {
       final projects = await db.getProjects(userID: auth.user!.uid);
@@ -47,7 +38,6 @@ class ProjectsPage extends ConsumerWidget {
             );
           }
           if (snapshot.hasError) {
-            print(snapshot.error);
             return Center(
               child: Text('An error occurred! ${snapshot.error}'),
             );
@@ -69,11 +59,10 @@ class ProjectsPage extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                          '${project.primaryClientName} - ${project.projectAddress1}'),
+                      Text(project.primaryClientName),
                       Text(project.projectDescription),
                       Text(
-                        '${project.projectCity}, ${project.projectState}\n${project.projectPostCode}, Australia',
+                        '${project.projectAddress1}, ${project.projectCity}, ${project.projectState}\n${project.projectPostCode}, Australia',
                       ),
                     ],
                   ),
@@ -95,58 +84,16 @@ class ProjectsPage extends ConsumerWidget {
                   ),
                 ),
                 onTap: () {
-                  Beamer.of(context)
-                      .beamToNamed('project-page'); // TODO 00: fix
+                  Beamer.of(context).beamToNamed(
+                    '/project-page',
+                    data: project,
+                  );
                 },
               );
             },
           );
         },
       ),
-
-      // ListView.builder(
-      //   itemCount: 10,
-      //   itemBuilder: (context, index) {
-      //     // get projects from db to build in listview
-
-      //     final projects =
-      //         db.streamProjects(companyID: user.companyID) as List<Project>;
-      //     for (final project in projects) {
-      //       return ListTile(
-      //         title: Text(project.projectTitle),
-      //         subtitle: Column(
-      //           children: [
-      //             Text(
-      //                 '${project.primaryClientName} - ${project.projectAddress1}'),
-      //             Text(project.projectDescription),
-      //             Text(
-      //               '${project.projectCity}, ${project.projectState}\n${project.projectPostCode}, Australia',
-      //             ),
-      //             Text(
-      //               project.projectStatus,
-      //               style: const TextStyle(color: Colors.green),
-      //             ),
-      //           ],
-      //         ),
-      //         trailing: Container(
-      //           width: 100,
-      //           height: 50,
-      //           color: Colors.green,
-      //           child: Center(
-      //             child: Text(
-      //               project.projectStatus,
-      //               style: const TextStyle(color: Colors.white),
-      //             ),
-      //           ),
-      //         ),
-      //         onTap: () {
-      //           Beamer.of(context).beamToNamed(''); // TODO 00: fix
-      //         },
-      //       );
-      //     }
-      //     return const Text("No Projects Found!");
-      //   },
-      // ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () {

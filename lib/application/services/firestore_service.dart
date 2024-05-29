@@ -211,7 +211,8 @@ class FirestoreService {
         secondaryClientName: project['secondaryClientName'],
         secondaryClientEmail: project['secondaryClientEmail'],
         secondaryClientPhone: project['secondaryClientPhone'],
-        projectNotes: project['projectNotes'],
+        projectNotes: project[
+            'projectNotes'], //TODO 11: implement mapping for this and following three
         tasks: project['tasks'],
         labourCosts: project['labourCosts'],
         materialCosts: project['materialCosts'],
@@ -250,7 +251,7 @@ class FirestoreService {
                 projectNotes: null,
                 tasks: null,
                 labourCosts: null,
-                materialCosts: null, // TODO 11: implement mapping
+                materialCosts: null,
                 totalCosts: project['totalCosts'],
               ))
           .toList();

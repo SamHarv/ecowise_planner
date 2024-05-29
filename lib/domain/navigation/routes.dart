@@ -8,12 +8,14 @@ import '../../presentation/pages/company_rego_pages/company_registration_page.da
 import '../../presentation/pages/auth_pages/forgot_password_page.dart';
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/company_rego_pages/join_company_page.dart';
+import '../../presentation/pages/project_pages/project_page.dart';
 import '../../presentation/pages/project_pages/projects_page.dart';
 import '../../presentation/pages/search_page.dart';
 import '../../presentation/pages/settings_page.dart';
 import '../../presentation/pages/auth_pages/sign_in_page.dart';
 import '../../presentation/pages/auth_pages/sign_up_page.dart';
 import '../../presentation/pages/tasks_page.dart';
+import '../model/project_model.dart';
 
 // TODO 99: manipulate views depending on user access level
 
@@ -100,16 +102,15 @@ final routerDelegate = BeamerDelegate(
           child: NewProjectPage(),
         );
       },
-      // TODO 00: implement below page
-      // '/project-page': (context, state, data) {
-      //   return BeamPage(
-      //     key: const ValueKey('project-page'),
-      //     type: BeamPageType.noTransition,
-      //     title: '$data.projectTitle',
-      //     child:
-      //         ProjectPage(project: data as Project, projectID: data.projectID),
-      //   );
-      // },
+      '/project-page': (context, state, data) {
+        return BeamPage(
+          key: const ValueKey('project-page'),
+          type: BeamPageType.noTransition,
+          title: '$data.projectTitle',
+          child:
+              ProjectPage(project: data as Project, projectID: data.projectID),
+        );
+      },
       '/settings': (context, state, data) {
         return const BeamPage(
           key: ValueKey('settings'),

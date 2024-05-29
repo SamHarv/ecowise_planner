@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../state_management/providers.dart';
+import '../../widgets/custom_dialog_widget.dart';
 import '../../widgets/custom_field_widget.dart';
 
 class NewProjectPage extends ConsumerStatefulWidget {
@@ -82,6 +83,10 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add New Project"),
+        shape: const Border(
+          bottom: BorderSide(color: Colors.grey, width: 1.0),
+        ),
+        centerTitle: false,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -89,7 +94,37 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
           ),
           onPressed: () {
             // ask whether they would like to save the project
-            Beamer.of(context).beamToNamed('/projects');
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CustomDialogWidget(
+                    dialogHeading: "Exit Without Saving?",
+                    dialogActions: [
+                      TextButton(
+                        onPressed: () {
+                          Beamer.of(context).beamToNamed('/projects');
+                        },
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'No',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                });
           },
         ),
       ),
@@ -324,7 +359,7 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
                 height: 60,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                       Colors.white,
                     ),
                   ),
