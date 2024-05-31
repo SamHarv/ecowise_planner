@@ -117,6 +117,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     final db = ref.read(firestore);
     final validate = ref.read(validation);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Project View"),
         shape: const Border(
