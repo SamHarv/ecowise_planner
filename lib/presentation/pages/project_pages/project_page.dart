@@ -140,33 +140,47 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
             width: mediaWidth,
             child: Column(
               children: [
-                BorderlessFieldWidget(
-                  width: mediaWidth * 0.9,
-                  controller: titleController,
-                  hintText: "Project Title",
-                  fontSize: 20,
-                  onChanged: (text) {
-                    widget.project.projectTitle = text;
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, bottom: 16),
+                  child: BorderlessFieldWidget(
+                    width: mediaWidth * 0.9,
+                    controller: titleController,
+                    hintText: "Project Title",
+                    fontSize: 20,
+                    onChanged: (text) {
+                      widget.project.projectTitle = text;
+                    },
+                  ),
                 ),
                 !editingAddress
-                    ? SizedBox(
+                    ? Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
                         width: mediaWidth * 0.9,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "${widget.project.projectAddress1}\n"
-                              "${widget.project.projectCity}\n"
-                              "${widget.project.projectState} "
-                              "${widget.project.projectPostCode}\nAustralia",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                "${widget.project.projectAddress1}\n"
+                                "${widget.project.projectCity}\n"
+                                "${widget.project.projectState} "
+                                "${widget.project.projectPostCode}\nAustralia",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 4),
+                              padding: const EdgeInsets.only(right: 16),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -182,6 +196,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                                       color: Colors.white,
                                     ),
                                   ),
+                                  gapH20,
                                   IconButton(
                                     onPressed: () {
                                       launchMaps(
@@ -202,118 +217,139 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                           ],
                         ),
                       )
-                    : Column(
-                        children: [
-                          SizedBox(
-                            width: mediaWidth * 0.9,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                BorderlessFieldWidget(
-                                  width: mediaWidth * 0.43,
-                                  controller: streetAddressController,
-                                  hintText: "Street Address",
-                                  fontSize: 16,
-                                  onChanged: (text) {
-                                    widget.project.projectAddress1 = text;
-                                  },
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        editingAddress = false;
-                                      });
-                                    },
-                                    icon: const Icon(
-                                      Icons.close,
-                                      color: Colors.white,
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: mediaWidth * 0.9 - 32,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    BorderlessFieldWidget(
+                                      width: mediaWidth * 0.43 - 16,
+                                      controller: streetAddressController,
+                                      hintText: "Street Address",
+                                      fontSize: 16,
+                                      onChanged: (text) {
+                                        widget.project.projectAddress1 = text;
+                                      },
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: mediaWidth * 0.9,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                BorderlessFieldWidget(
-                                  width: mediaWidth * 0.43,
-                                  controller: cityController,
-                                  hintText: "City",
-                                  fontSize: 16,
-                                  onChanged: (text) {
-                                    widget.project.projectCity = text;
-                                  },
-                                ),
-                                BorderlessDropdownMenuWidget(
-                                  hintText: geoState,
-                                  dropdownMenuEntries: const [
-                                    DropdownMenuEntry(
-                                        value: "VIC", label: "VIC"),
-                                    DropdownMenuEntry(
-                                        value: "NSW", label: "NSW"),
-                                    DropdownMenuEntry(
-                                        value: "QLD", label: "QLD"),
-                                    DropdownMenuEntry(value: "SA", label: "SA"),
-                                    DropdownMenuEntry(value: "WA", label: "WA"),
-                                    DropdownMenuEntry(
-                                        value: "TAS", label: "TAS"),
-                                    DropdownMenuEntry(value: "NT", label: "NT"),
-                                    DropdownMenuEntry(
-                                        value: "ACT", label: "ACT"),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 4),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            editingAddress = false;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ],
-                                  onSelected: (state) {
-                                    if (state != null) {
-                                      setState(() {
-                                        widget.project.projectState = state;
-                                      });
-                                    }
-                                  },
-                                  width: mediaWidth * 0.43,
-                                  label: "State",
                                 ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: mediaWidth * 0.9,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                BorderlessFieldWidget(
-                                  width: mediaWidth * 0.43,
-                                  controller: postcodeController,
-                                  hintText: "Postcode",
-                                  fontSize: 16,
-                                  onChanged: (text) {
-                                    widget.project.projectPostCode = text;
-                                  },
-                                ),
-                                BorderlessDropdownMenuWidget(
-                                  hintText: "Australia",
-                                  dropdownMenuEntries: const [
-                                    DropdownMenuEntry(
-                                        value: "Australia", label: "Australia"),
+                              ),
+                              SizedBox(
+                                width: mediaWidth * 0.9 - 32,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    BorderlessFieldWidget(
+                                      width: mediaWidth * 0.43 - 16,
+                                      controller: cityController,
+                                      hintText: "City",
+                                      fontSize: 16,
+                                      onChanged: (text) {
+                                        widget.project.projectCity = text;
+                                      },
+                                    ),
+                                    BorderlessDropdownMenuWidget(
+                                      hintText: geoState,
+                                      dropdownMenuEntries: const [
+                                        DropdownMenuEntry(
+                                            value: "VIC", label: "VIC"),
+                                        DropdownMenuEntry(
+                                            value: "NSW", label: "NSW"),
+                                        DropdownMenuEntry(
+                                            value: "QLD", label: "QLD"),
+                                        DropdownMenuEntry(
+                                            value: "SA", label: "SA"),
+                                        DropdownMenuEntry(
+                                            value: "WA", label: "WA"),
+                                        DropdownMenuEntry(
+                                            value: "TAS", label: "TAS"),
+                                        DropdownMenuEntry(
+                                            value: "NT", label: "NT"),
+                                        DropdownMenuEntry(
+                                            value: "ACT", label: "ACT"),
+                                      ],
+                                      onSelected: (state) {
+                                        if (state != null) {
+                                          setState(() {
+                                            widget.project.projectState = state;
+                                          });
+                                        }
+                                      },
+                                      width: mediaWidth * 0.43 - 16,
+                                      label: "State",
+                                    ),
                                   ],
-                                  onSelected: (country) {
-                                    if (country != null) {
-                                      setState(() {
-                                        // _country = country;
-                                      });
-                                    }
-                                  },
-                                  width: mediaWidth * 0.43,
-                                  label: "Country",
                                 ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(
+                                width: mediaWidth * 0.9 - 32,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    BorderlessFieldWidget(
+                                      width: mediaWidth * 0.43 - 16,
+                                      controller: postcodeController,
+                                      hintText: "Postcode",
+                                      fontSize: 16,
+                                      onChanged: (text) {
+                                        widget.project.projectPostCode = text;
+                                      },
+                                    ),
+                                    BorderlessDropdownMenuWidget(
+                                      hintText: "Australia",
+                                      dropdownMenuEntries: const [
+                                        DropdownMenuEntry(
+                                            value: "Australia",
+                                            label: "Australia"),
+                                      ],
+                                      onSelected: (country) {
+                                        if (country != null) {
+                                          setState(() {
+                                            // _country = country;
+                                          });
+                                        }
+                                      },
+                                      width: mediaWidth * 0.43 - 16,
+                                      label: "Country",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
+                gapH20,
                 BorderlessDropdownMenuWidget(
                   hintText: reference,
                   dropdownMenuEntries: const [
@@ -328,7 +364,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                       });
                     }
                   },
-                  width: mediaWidth * 0.9,
+                  width: mediaWidth * 0.9 - 32,
                   label: "Reference",
                 ),
                 BorderlessDropdownMenuWidget(
@@ -348,29 +384,192 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                       });
                     }
                   },
-                  width: mediaWidth * 0.9,
+                  width: mediaWidth * 0.9 - 32,
                   label: "Status",
                 ),
+                gapH20,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        BorderlessFieldWidget(
+                          controller: primaryClientNameController,
+                          hintText: "Contact Name",
+                          width: mediaWidth * 0.9 - 32,
+                          fontSize: 16,
+                          label: const Text("Primary Contact"),
+                          onChanged: (text) {
+                            widget.project.primaryClientName = text;
+                          },
+                        ),
+                        SizedBox(
+                          width: mediaWidth * 0.9 - 32,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              BorderlessFieldWidget(
+                                controller: primaryClientEmailController,
+                                hintText: "Contact Email Address",
+                                width: mediaWidth * 0.7,
+                                fontSize: 16,
+                                label: const Text("Email"),
+                                onChanged: (text) {
+                                  widget.project.primaryClientEmail = text;
+                                },
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  launchEmail(
+                                      primaryClientEmailController.text.trim());
+                                },
+                                icon: const Icon(Icons.email),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: mediaWidth * 0.9 - 32,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              BorderlessFieldWidget(
+                                controller: primaryClientPhoneController,
+                                hintText: "Contact Phone Number",
+                                width: mediaWidth * 0.43 - 16,
+                                fontSize: 16,
+                                label: const Text("Phone"),
+                                onChanged: (text) {
+                                  widget.project.primaryClientPhone = text;
+                                },
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  _phoneCall(
+                                      primaryClientPhoneController.text.trim());
+                                },
+                                icon: const Icon(Icons.phone),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                gapH20,
+
+                // Check to see if secondary contact is present
+                if (widget.project.secondaryClientName != null &&
+                    widget.project.secondaryClientEmail != "")
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          BorderlessFieldWidget(
+                            controller: secondaryClientNameController,
+                            hintText: "Contact Name",
+                            width: mediaWidth * 0.9 - 32,
+                            fontSize: 16,
+                            label: const Text("Secondary Contact"),
+                            onChanged: (text) {
+                              widget.project.secondaryClientName = text;
+                            },
+                          ),
+                          SizedBox(
+                            width: mediaWidth * 0.9 - 32,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                BorderlessFieldWidget(
+                                  controller: secondaryClientEmailController,
+                                  hintText: "Contact Email Address",
+                                  width: mediaWidth * 0.7,
+                                  fontSize: 16,
+                                  label: const Text("Email"),
+                                  onChanged: (text) {
+                                    widget.project.secondaryClientEmail = text;
+                                  },
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    launchEmail(primaryClientEmailController
+                                        .text
+                                        .trim());
+                                  },
+                                  icon: const Icon(Icons.email),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: mediaWidth * 0.9 - 32,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                BorderlessFieldWidget(
+                                  controller: secondaryClientPhoneController,
+                                  hintText: "Contact Phone Number",
+                                  width: mediaWidth * 0.43 - 16,
+                                  fontSize: 16,
+                                  label: const Text("Phone"),
+                                  onChanged: (text) {
+                                    widget.project.secondaryClientPhone = text;
+                                  },
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    _phoneCall(secondaryClientPhoneController
+                                        .text
+                                        .trim());
+                                  },
+                                  icon: const Icon(Icons.phone),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                gapH20,
                 SizedBox(
-                  width: mediaWidth * 0.9,
+                  width: mediaWidth * 0.9 - 32,
                   child: Text(
-                    "Created Date: ${DateTime.parse(widget.project.projectCreatedDate).day}-${DateTime.parse(widget.project.projectCreatedDate).month}-${DateTime.parse(widget.project.projectCreatedDate).year}",
+                    "Created: ${DateTime.parse(widget.project.projectCreatedDate).day}-${DateTime.parse(widget.project.projectCreatedDate).month}-${DateTime.parse(widget.project.projectCreatedDate).year}",
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
+                      color: Colors.grey,
                     ),
                   ),
                 ),
                 SizedBox(
-                  width: mediaWidth * 0.9,
+                  width: mediaWidth * 0.9 - 32,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Due Date: ${DateTime.parse(widget.project.projectDueDate).day}-${DateTime.parse(widget.project.projectDueDate).month}-${DateTime.parse(widget.project.projectDueDate).year}",
                         style: const TextStyle(
                           fontSize: 16,
-                          color: Colors.white,
+                          color: Colors.grey,
                         ),
                       ),
                       IconButton(
@@ -436,140 +635,13 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                     ],
                   ),
                 ),
-
-                BorderlessFieldWidget(
-                  controller: primaryClientNameController,
-                  hintText: "Contact Name",
-                  width: mediaWidth * 0.9,
-                  fontSize: 16,
-                  label: const Text("Primary Contact"),
-                  onChanged: (text) {
-                    widget.project.primaryClientName = text;
-                  },
-                ),
-                SizedBox(
-                  width: mediaWidth * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BorderlessFieldWidget(
-                        controller: primaryClientEmailController,
-                        hintText: "Contact Email Address",
-                        width: mediaWidth * 0.43,
-                        fontSize: 16,
-                        label: const Text("Email"),
-                        onChanged: (text) {
-                          widget.project.primaryClientEmail = text;
-                        },
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          launchEmail(primaryClientEmailController.text.trim());
-                        },
-                        icon: const Icon(Icons.email),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: mediaWidth * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BorderlessFieldWidget(
-                        controller: primaryClientPhoneController,
-                        hintText: "Contact Phone Number",
-                        width: mediaWidth * 0.43,
-                        fontSize: 16,
-                        label: const Text("Phone"),
-                        onChanged: (text) {
-                          widget.project.primaryClientPhone = text;
-                        },
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          _phoneCall(primaryClientPhoneController.text.trim());
-                        },
-                        icon: const Icon(Icons.phone),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Check to see if secondary contact is present
-                if (widget.project.secondaryClientName != null &&
-                    widget.project.secondaryClientEmail != "")
-                  Column(
-                    children: [
-                      BorderlessFieldWidget(
-                        controller: secondaryClientNameController,
-                        hintText: "Contact Name",
-                        width: mediaWidth * 0.9,
-                        fontSize: 16,
-                        label: const Text("Secondary Contact"),
-                        onChanged: (text) {
-                          widget.project.secondaryClientName = text;
-                        },
-                      ),
-                      SizedBox(
-                        width: mediaWidth * 0.9,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BorderlessFieldWidget(
-                              controller: secondaryClientEmailController,
-                              hintText: "Contact Email Address",
-                              width: mediaWidth * 0.43,
-                              fontSize: 16,
-                              label: const Text("Email"),
-                              onChanged: (text) {
-                                widget.project.secondaryClientEmail = text;
-                              },
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                launchEmail(
-                                    primaryClientEmailController.text.trim());
-                              },
-                              icon: const Icon(Icons.email),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: mediaWidth * 0.9,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BorderlessFieldWidget(
-                              controller: secondaryClientPhoneController,
-                              hintText: "Contact Phone Number",
-                              width: mediaWidth * 0.43,
-                              fontSize: 16,
-                              label: const Text("Phone"),
-                              onChanged: (text) {
-                                widget.project.secondaryClientPhone = text;
-                              },
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                _phoneCall(
-                                    secondaryClientPhoneController.text.trim());
-                              },
-                              icon: const Icon(Icons.phone),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                gapH20,
                 SizedBox(
                   height: 400,
                   width: mediaWidth * 0.9,
                   child: const Text(
-                    "Hey Darc,\nStill planning to add notes, tasks, labour, "
-                    "material, and total costs here.\nThen I will try to make it "
-                    "look pretty.\nLove Sam xoxo",
+                    "Hey Darc,\nStill planning to add to this page:\nNotes\nTasks\nLabour costs\n"
+                    "Material costs\nTotal costs\nLove Sam xoxo",
                     style: TextStyle(
                       fontSize: 30,
                       color: Colors.green,
