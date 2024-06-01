@@ -7,6 +7,8 @@ class BorderlessFieldWidget extends StatelessWidget {
   final double fontSize;
   final Function(String)? onChanged;
   final Text? label;
+  final int? maxLines;
+  final int? minLines;
 
   const BorderlessFieldWidget({
     super.key,
@@ -16,6 +18,8 @@ class BorderlessFieldWidget extends StatelessWidget {
     required this.fontSize,
     this.onChanged,
     this.label,
+    this.maxLines,
+    this.minLines,
   });
 
   @override
@@ -25,6 +29,8 @@ class BorderlessFieldWidget extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
+          maxLines: maxLines ?? 1,
+          minLines: minLines ?? 1,
           onChanged: onChanged,
           controller: controller,
           style: TextStyle(

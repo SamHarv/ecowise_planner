@@ -9,12 +9,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '/domain/utils/constants.dart';
 
 import '../../state_management/providers.dart';
-import '../../widgets/custom_field_widget.dart';
 
 import '../../../domain/model/project_model.dart';
 
 //TODO 00: implement this page
-// Take notes
 // CRUD tasks
 // See labour, material, and total costs if access
 // See hours spent on project for employees if access
@@ -108,6 +106,8 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
         TextEditingController(text: widget.project.secondaryClientEmail);
     final secondaryClientPhoneController =
         TextEditingController(text: widget.project.secondaryClientPhone);
+    final projectNotes =
+        TextEditingController(text: widget.project.projectNotes);
     String geoState = widget.project.projectState;
     String reference = widget.project.projectDescription;
     String status = widget.project.projectStatus;
@@ -637,11 +637,42 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                   ),
                 ),
                 gapH20,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: BorderlessFieldWidget(
+                      maxLines: 200,
+                      minLines: 3,
+                      width: mediaWidth * 0.9 - 32,
+                      controller: TextEditingController(
+                          text: widget.project.projectNotes),
+                      hintText: "Notes",
+                      fontSize: 16,
+                      onChanged: (text) {
+                        widget.project.projectNotes = text;
+                      },
+                    ),
+                  ),
+                ),
+                gapH20,
+                // Notes
+                // Tasks
+                // Labour costs
+                // Material costs
+                // Total costs
                 SizedBox(
                   height: 400,
                   width: mediaWidth * 0.9,
                   child: const Text(
-                    "Hey Darc,\nStill planning to add to this page:\nNotes\nTasks\nLabour costs\n"
+                    "Hey Darc,\nStill planning to add to this page:\nTasks\nLabour costs\n"
                     "Material costs\nTotal costs\nLove Sam xoxo",
                     style: TextStyle(
                       fontSize: 30,

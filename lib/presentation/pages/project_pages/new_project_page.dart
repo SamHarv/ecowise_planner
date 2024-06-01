@@ -448,7 +448,7 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
                             _secondaryClientEmailController.text.trim(),
                         secondaryClientPhone:
                             _secondaryClientPhoneController.text.trim(),
-                        projectNotes: [],
+                        projectNotes: "",
                         tasks: [],
                         labourCosts: {},
                         materialCosts: {},

@@ -18,7 +18,7 @@ class Project {
   String? secondaryClientName;
   String? secondaryClientEmail;
   String? secondaryClientPhone;
-  final List<String>? projectNotes;
+  String? projectNotes;
   final List<Task>? tasks;
   final Map<String, double>? labourCosts;
   final Map<String, double>? materialCosts;
