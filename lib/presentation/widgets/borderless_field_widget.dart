@@ -9,6 +9,7 @@ class BorderlessFieldWidget extends StatelessWidget {
   final Text? label;
   final int? maxLines;
   final int? minLines;
+  final TextInputType? inputType;
 
   const BorderlessFieldWidget({
     super.key,
@@ -20,6 +21,7 @@ class BorderlessFieldWidget extends StatelessWidget {
     this.label,
     this.maxLines,
     this.minLines,
+    this.inputType,
   });
 
   @override
@@ -29,6 +31,7 @@ class BorderlessFieldWidget extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
+          showCursor: true,
           maxLines: maxLines ?? 1,
           minLines: minLines ?? 1,
           onChanged: onChanged,
@@ -47,7 +50,7 @@ class BorderlessFieldWidget extends StatelessWidget {
             border: InputBorder.none,
           ),
           textCapitalization: TextCapitalization.words,
-          keyboardType: TextInputType.text,
+          keyboardType: inputType ?? TextInputType.text,
         ),
       ),
     );

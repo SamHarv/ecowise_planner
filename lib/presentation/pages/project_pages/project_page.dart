@@ -88,26 +88,49 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
   Widget build(BuildContext context) {
     final titleController =
         TextEditingController(text: widget.project.projectTitle);
+    titleController.selection = TextSelection.fromPosition(
+      TextPosition(offset: titleController.text.length),
+    );
     final streetAddressController =
         TextEditingController(text: widget.project.projectAddress1);
+    streetAddressController.selection = TextSelection.fromPosition(
+        TextPosition(offset: streetAddressController.text.length));
     final cityController =
         TextEditingController(text: widget.project.projectCity);
+    cityController.selection = TextSelection.fromPosition(
+        TextPosition(offset: cityController.text.length));
     final postcodeController =
         TextEditingController(text: widget.project.projectPostCode);
+    postcodeController.selection = TextSelection.fromPosition(
+        TextPosition(offset: postcodeController.text.length));
     final primaryClientNameController =
         TextEditingController(text: widget.project.primaryClientName);
+    primaryClientNameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: primaryClientNameController.text.length));
     final primaryClientEmailController =
         TextEditingController(text: widget.project.primaryClientEmail);
+    primaryClientEmailController.selection = TextSelection.fromPosition(
+        TextPosition(offset: primaryClientEmailController.text.length));
     final primaryClientPhoneController =
         TextEditingController(text: widget.project.primaryClientPhone);
+    primaryClientPhoneController.selection = TextSelection.fromPosition(
+        TextPosition(offset: primaryClientPhoneController.text.length));
     final secondaryClientNameController =
         TextEditingController(text: widget.project.secondaryClientName);
+    secondaryClientNameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: secondaryClientNameController.text.length));
     final secondaryClientEmailController =
         TextEditingController(text: widget.project.secondaryClientEmail);
+    secondaryClientEmailController.selection = TextSelection.fromPosition(
+        TextPosition(offset: secondaryClientEmailController.text.length));
     final secondaryClientPhoneController =
         TextEditingController(text: widget.project.secondaryClientPhone);
-    final projectNotes =
+    secondaryClientPhoneController.selection = TextSelection.fromPosition(
+        TextPosition(offset: secondaryClientPhoneController.text.length));
+    final projectNotesController =
         TextEditingController(text: widget.project.projectNotes);
+    projectNotesController.selection = TextSelection.fromPosition(
+        TextPosition(offset: projectNotesController.text.length));
     String geoState = widget.project.projectState;
     String reference = widget.project.projectDescription;
     String status = widget.project.projectStatus;
@@ -649,11 +672,11 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: BorderlessFieldWidget(
+                      inputType: TextInputType.multiline,
                       maxLines: 200,
                       minLines: 3,
                       width: mediaWidth * 0.9 - 32,
-                      controller: TextEditingController(
-                          text: widget.project.projectNotes),
+                      controller: projectNotesController,
                       hintText: "Notes",
                       fontSize: 16,
                       onChanged: (text) {
