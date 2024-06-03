@@ -20,8 +20,8 @@ class Project {
   String? secondaryClientPhone;
   String? projectNotes;
   final List<Task>? tasks;
-  final Map<String, double>? labourCosts;
-  final Map<String, double>? materialCosts;
+  final Map<String, double> labourCosts;
+  final Map<String, double> materialCosts;
   final double totalCosts;
   // attachments ??
   // Quotes & Invoices??
@@ -46,8 +46,8 @@ class Project {
     this.secondaryClientPhone,
     this.projectNotes,
     this.tasks,
-    this.labourCosts,
-    this.materialCosts,
+    this.labourCosts = const {},
+    this.materialCosts = const {},
     required this.totalCosts,
   });
 }

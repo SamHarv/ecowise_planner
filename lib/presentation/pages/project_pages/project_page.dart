@@ -1,6 +1,7 @@
 import 'package:ecowise_planner/presentation/widgets/borderless_dropdown_menu_widget.dart';
 import 'package:ecowise_planner/presentation/widgets/borderless_field_widget.dart';
 import 'package:ecowise_planner/presentation/widgets/custom_dialog_widget.dart';
+import 'package:ecowise_planner/presentation/widgets/custom_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beamer/beamer.dart';
@@ -18,6 +19,8 @@ import '../../../domain/model/project_model.dart';
 // See hours spent on project for employees if access
 // Edit project and delete project buttons in app bar
 
+enum CostType { labour, material }
+
 class ProjectPage extends ConsumerStatefulWidget {
   final Project project;
   final String projectID;
@@ -34,6 +37,32 @@ class ProjectPage extends ConsumerStatefulWidget {
 
 class _ProjectPageState extends ConsumerState<ProjectPage> {
   bool editingAddress = false;
+  final tempMap = {
+    'Now': [
+      'Task 1',
+      'Task 2',
+      'Task 3',
+      'Task 4',
+      'Task 5',
+      'Task 6',
+    ],
+    'Coming Up': [
+      'Task 7',
+      'Task 8',
+      'Task 9',
+      'Task 10',
+      'Task 11',
+      'Task 12',
+    ],
+    'Future': [
+      'Task 13',
+      'Task 14',
+      'Task 15',
+      'Task 16',
+      'Task 17',
+      'Task 18',
+    ],
+  };
   void showMessage(String message) {
     showDialog(
       context: context,
@@ -77,6 +106,41 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     } else {
       throw 'Could not launch $call';
     }
+  }
+
+  double calculateLabourCosts() {
+    double labourCosts = 0;
+    if (widget.project.labourCosts != null) {
+      widget.project.labourCosts!.forEach((key, value) {
+        labourCosts += value;
+      });
+    }
+    return labourCosts;
+  }
+
+  double calculateMaterialCosts() {
+    double materialCosts = 0;
+    if (widget.project.materialCosts != null) {
+      widget.project.materialCosts!.forEach((key, value) {
+        materialCosts += value;
+      });
+    }
+    return materialCosts;
+  }
+
+  double calculateTotalCosts() {
+    double totalCosts = 0;
+    if (widget.project.labourCosts != null) {
+      widget.project.labourCosts!.forEach((key, value) {
+        totalCosts += value;
+      });
+    }
+    if (widget.project.materialCosts != null) {
+      widget.project.materialCosts!.forEach((key, value) {
+        totalCosts += value;
+      });
+    }
+    return totalCosts;
   }
 
   @override
@@ -131,6 +195,10 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
         TextEditingController(text: widget.project.projectNotes);
     projectNotesController.selection = TextSelection.fromPosition(
         TextPosition(offset: projectNotesController.text.length));
+    final labourCostController = TextEditingController();
+    final materialCostController = TextEditingController();
+    final labourCostDescController = TextEditingController();
+    final materialCostDescController = TextEditingController();
     String geoState = widget.project.projectState;
     String reference = widget.project.projectDescription;
     String status = widget.project.projectStatus;
@@ -661,6 +729,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                 ),
                 gapH20,
                 Container(
+                  // height: 200,
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     border: Border.all(
@@ -686,24 +755,289 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                   ),
                 ),
                 gapH20,
-                // Notes
-                // Tasks
-                // Labour costs
-                // Material costs
-                // Total costs
                 SizedBox(
-                  height: 400,
-                  width: mediaWidth * 0.9,
+                  width: mediaWidth * 0.9 - 32,
                   child: const Text(
-                    "Hey Darc,\nStill planning to add to this page:\nTasks\nLabour costs\n"
-                    "Material costs\nTotal costs\nLove Sam xoxo",
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.green,
-                    ),
+                    "Tasks",
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
                   ),
                 ),
-                // Take notes
+                gapH20,
+                // TODO 11: implement tasks here properly
+                Container(
+                  width: mediaWidth * 0.9,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: ListView(
+                    children: [
+                      for (int index = 0; index < tempMap.length; index++)
+                        ExpansionTile(
+                          shape: index == 0
+                              ? const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(24),
+                                    topRight: Radius.circular(24),
+                                  ),
+                                )
+                              : null,
+                          collapsedShape: index == 0
+                              ? const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(24),
+                                    topRight: Radius.circular(24),
+                                  ),
+                                )
+                              : null,
+                          title: Text(
+                            tempMap.keys.elementAt(index),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          children: tempMap.values
+                              .elementAt(index)
+                              .map((e) => ListTile(title: Text(e)))
+                              .toList(),
+                        ),
+                    ],
+                  ),
+                ),
+                gapH20,
+                SizedBox(
+                  width: mediaWidth * 0.9 - 32,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Labour Costs: \$${calculateLabourCosts()}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            "Material Costs: \$${calculateMaterialCosts()}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            "Total Costs: \$${calculateTotalCosts()}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      FloatingActionButton(
+                        child: const Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Add",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Text(
+                                "Costs",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              var selected = {CostType.labour};
+                              return StatefulBuilder(
+                                builder: (context, setState) {
+                                  return Center(
+                                    child: CustomDialogWidget(
+                                      dialogHeading: "Add Costs",
+                                      dialogContent: SizedBox(
+                                        width: mediaWidth * 0.9,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SegmentedButton(
+                                              segments: const [
+                                                ButtonSegment(
+                                                  value: CostType.labour,
+                                                  label: Text("Labour"),
+                                                ),
+                                                ButtonSegment(
+                                                  value: CostType.material,
+                                                  label: Text("Material"),
+                                                ),
+                                              ],
+                                              selected: selected,
+                                              onSelectionChanged:
+                                                  (Set<CostType> newSelection) {
+                                                setState(() {
+                                                  selected = newSelection;
+                                                });
+                                                setState(() {});
+                                              },
+                                            ),
+                                            gapH20,
+                                            CustomFieldWidget(
+                                              textController: selected
+                                                          .toString() ==
+                                                      {CostType.labour}
+                                                          .toString()
+                                                  ? labourCostDescController
+                                                  : materialCostDescController,
+                                              hintText: "Description",
+                                              textCapitalization:
+                                                  TextCapitalization.none,
+                                              width: mediaWidth * 0.8,
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              maxLines: 20,
+                                            ),
+                                            gapH20,
+                                            CustomFieldWidget(
+                                              textController:
+                                                  selected.toString() ==
+                                                          {CostType.labour}
+                                                              .toString()
+                                                      ? labourCostController
+                                                      : materialCostController,
+                                              hintText: "Amount (\$)",
+                                              textCapitalization:
+                                                  TextCapitalization.none,
+                                              width: mediaWidth * 0.8,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      dialogActions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Cancel",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (selected.toString() ==
+                                                  {CostType.labour}
+                                                      .toString()) {
+                                                widget.project.labourCosts[
+                                                    labourCostDescController
+                                                        .text] = double.parse(
+                                                    labourCostController.text);
+                                              } else if (selected.toString() ==
+                                                  {CostType.material}
+                                                      .toString()) {
+                                                widget.project.materialCosts[
+                                                    materialCostDescController
+                                                        .text] = double.parse(
+                                                    materialCostController
+                                                        .text);
+                                              }
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Save",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                gapH20,
+                Divider(
+                  indent: mediaWidth * 0.05,
+                  endIndent: mediaWidth * 0.05,
+                ),
+                gapH20,
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.red),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.black,
+                          title: const Text(
+                            "Delete Project",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          content: const Text(
+                            "Are you sure you want to delete this project?",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                final currentUser =
+                                    await db.getUser(userID: auth.user!.uid);
+                                await db.deleteProject(
+                                  projectID: widget.project.projectID,
+                                  companyID: currentUser.companyID,
+                                );
+                                // ignore: use_build_context_synchronously
+                                Beamer.of(context).beamToNamed('/projects');
+                              },
+                              child: const Text(
+                                "Delete",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: const Text(
+                    "Delete Project",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                gapH20,
               ],
             ),
           ),

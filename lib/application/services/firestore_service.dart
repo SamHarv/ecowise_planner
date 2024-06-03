@@ -250,8 +250,8 @@ class FirestoreService {
                 secondaryClientPhone: project['secondaryClientPhone'],
                 projectNotes: null,
                 tasks: null,
-                labourCosts: null,
-                materialCosts: null,
+                labourCosts: {},
+                materialCosts: {},
                 totalCosts: project['totalCosts'],
               ))
           .toList();
