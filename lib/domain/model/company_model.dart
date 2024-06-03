@@ -5,14 +5,14 @@ import 'user_model.dart';
 class Company {
   final String companyID;
   final String name;
-  final List<UserModel>? employees;
-  final List<Project>? projects;
+  final List<dynamic> employees;
+  final List<dynamic> projects;
 
   Company({
     required this.companyID,
     required this.name,
-    this.employees,
-    this.projects,
+    this.employees = const [],
+    this.projects = const [],
   });
 
   @override

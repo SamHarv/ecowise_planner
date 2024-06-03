@@ -30,7 +30,7 @@ class ProjectsPage extends ConsumerWidget {
         title: const Text('Projects'),
       ),
       body: FutureBuilder(
-        future: getProjects(),
+        future: getProjects(), // TODO: Getting snapshot error
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -38,6 +38,7 @@ class ProjectsPage extends ConsumerWidget {
             );
           }
           if (snapshot.hasError) {
+            print(snapshot);
             return Center(
               child: Text('An error occurred! ${snapshot.error}'),
             );

@@ -976,6 +976,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                     ],
                   ),
                 ),
+                // TODO 11: Work out the best way to view and interact with costs
 
                 gapH20,
                 Divider(
