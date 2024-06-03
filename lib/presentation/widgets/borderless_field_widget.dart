@@ -49,7 +49,7 @@ class BorderlessFieldWidget extends StatelessWidget {
             ),
             border: InputBorder.none,
           ),
-          textCapitalization: TextCapitalization.words,
+          textCapitalization: TextCapitalization.sentences,
           keyboardType: inputType ?? TextInputType.text,
         ),
       ),

@@ -89,7 +89,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                           height: 60,
                           child: ElevatedButton(
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.white,
                               ),
                             ),
@@ -206,7 +206,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                           height: 60,
                           child: ElevatedButton(
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.white,
                               ),
                             ),

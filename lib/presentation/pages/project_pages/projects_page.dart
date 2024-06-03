@@ -38,7 +38,6 @@ class ProjectsPage extends ConsumerWidget {
             );
           }
           if (snapshot.hasError) {
-            print(snapshot);
             return Center(
               child: Text('An error occurred! ${snapshot.error}'),
             );

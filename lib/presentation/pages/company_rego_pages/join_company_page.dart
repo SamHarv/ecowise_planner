@@ -78,7 +78,7 @@ class _JoinCompanyPageState extends ConsumerState<JoinCompanyPage> {
                 height: 60,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                       Colors.white,
                     ),
                   ),

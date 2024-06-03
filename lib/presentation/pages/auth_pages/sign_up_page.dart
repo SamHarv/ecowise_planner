@@ -106,7 +106,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 height: 60,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                       Colors.white,
                     ),
                   ),

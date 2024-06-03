@@ -81,7 +81,7 @@ class _CompanyRegistrationPageState
                 height: 60,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                       Colors.white,
                     ),
                   ),

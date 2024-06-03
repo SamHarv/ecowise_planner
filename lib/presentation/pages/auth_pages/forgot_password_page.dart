@@ -84,7 +84,7 @@ class _ForgotPasswordPageWidgetState extends ConsumerState<ForgotPasswordPage> {
                     height: 60,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Colors.white,
                         ),
                       ),

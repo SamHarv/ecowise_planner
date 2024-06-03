@@ -110,36 +110,28 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
 
   double calculateLabourCosts() {
     double labourCosts = 0;
-    if (widget.project.labourCosts != null) {
-      widget.project.labourCosts!.forEach((key, value) {
-        labourCosts += value;
-      });
-    }
+    widget.project.labourCosts.forEach((key, value) {
+      labourCosts += value;
+    });
     return labourCosts;
   }
 
   double calculateMaterialCosts() {
     double materialCosts = 0;
-    if (widget.project.materialCosts != null) {
-      widget.project.materialCosts!.forEach((key, value) {
-        materialCosts += value;
-      });
-    }
+    widget.project.materialCosts.forEach((key, value) {
+      materialCosts += value;
+    });
     return materialCosts;
   }
 
   double calculateTotalCosts() {
     double totalCosts = 0;
-    if (widget.project.labourCosts != null) {
-      widget.project.labourCosts!.forEach((key, value) {
-        totalCosts += value;
-      });
-    }
-    if (widget.project.materialCosts != null) {
-      widget.project.materialCosts!.forEach((key, value) {
-        totalCosts += value;
-      });
-    }
+    widget.project.labourCosts.forEach((key, value) {
+      totalCosts += value;
+    });
+    widget.project.materialCosts.forEach((key, value) {
+      totalCosts += value;
+    });
     return totalCosts;
   }
 
