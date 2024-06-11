@@ -5,6 +5,8 @@ import '../../domain/utils/constants.dart';
 import '../state_management/providers.dart';
 import '../widgets/custom_bottom_nav_bar_widget.dart';
 
+// tab for finance
+
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 

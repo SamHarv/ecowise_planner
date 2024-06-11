@@ -1,4 +1,4 @@
-import 'task_model.dart';
+// import 'task_model.dart';
 
 class Project {
   final String projectID;
@@ -19,9 +19,9 @@ class Project {
   String? secondaryClientEmail;
   String? secondaryClientPhone;
   String? projectNotes;
-  final List<Task>? tasks;
-  final Map<String, double> labourCosts;
-  final Map<String, double> materialCosts;
+  final List<dynamic>? tasks;
+  final Map<String, dynamic> labourCosts;
+  final Map<String, dynamic> materialCosts;
   final double totalCosts;
   // attachments ??
   // Quotes & Invoices??

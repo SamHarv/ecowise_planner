@@ -1,7 +1,3 @@
-import 'project_model.dart';
-
-import 'user_model.dart';
-
 class Company {
   final String companyID;
   final String name;

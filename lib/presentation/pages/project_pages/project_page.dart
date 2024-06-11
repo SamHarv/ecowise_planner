@@ -13,12 +13,6 @@ import '../../state_management/providers.dart';
 
 import '../../../domain/model/project_model.dart';
 
-//TODO 00: implement this page
-// CRUD tasks
-// See labour, material, and total costs if access
-// See hours spent on project for employees if access
-// Edit project and delete project buttons in app bar
-
 enum CostType { labour, material }
 
 class ProjectPage extends ConsumerStatefulWidget {
@@ -212,9 +206,104 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          onPressed: () {
-            // TODO 00: Save updates here
-            Beamer.of(context).beamToNamed('/projects');
+          onPressed: () async {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
+              },
+            );
+
+            // TODO 00: street address, city, state, postcode not saving
+
+            try {
+              if (validate.validateTitle(titleController.text.trim()) != null) {
+                throw "Title is required";
+              }
+              if (validate.validateStreetAddress(
+                      streetAddressController.text.trim()) !=
+                  null) {
+                throw "Street Address is required";
+              }
+              if (validate.validateCity(cityController.text.trim()) != null) {
+                throw "City is required";
+              }
+              if (validate.validatePostcode(postcodeController.text.trim()) !=
+                  null) {
+                throw "Postcode is required";
+              }
+              if (validate.validatePrimaryContactName(
+                      primaryClientNameController.text.trim()) !=
+                  null) {
+                throw "Primary Contact Name is required";
+              }
+              if (validate.validateEmail(
+                      primaryClientEmailController.text.trim()) !=
+                  null) {
+                throw "Primary Contact Email is required";
+              }
+              if (validate.validatePhone(
+                      primaryClientPhoneController.text.trim()) !=
+                  null) {
+                throw "Primary Contact Phone is required";
+              }
+            } catch (e) {
+              showMessage(e.toString());
+            }
+
+            // Create Client objects
+            try {
+              final currentUser = await db.getUser(userID: auth.user!.uid);
+
+              // Create Project object
+              final project = Project(
+                projectID: widget.project.projectID,
+                companyID: currentUser.companyID,
+                projectTitle: titleController.text.trim(),
+                projectDescription: reference,
+                projectAddress1: widget.project.projectAddress1,
+                projectCity: cityController.text.trim(),
+                projectState: geoState,
+                projectPostCode: postcodeController.text.trim(),
+                projectStatus: status,
+                projectDueDate: dueDate,
+                projectCreatedDate: widget.project.projectCreatedDate,
+                primaryClientName: primaryClientNameController.text.trim(),
+                primaryClientEmail: primaryClientEmailController.text.trim(),
+                primaryClientPhone: primaryClientPhoneController.text.trim(),
+                secondaryClientName: secondaryClientNameController.text.trim(),
+                secondaryClientEmail:
+                    secondaryClientEmailController.text.trim(),
+                secondaryClientPhone:
+                    secondaryClientPhoneController.text.trim(),
+                projectNotes: projectNotesController.text.trim(),
+                tasks: [], // TODO 11: Tasks
+                labourCosts: widget.project.labourCosts,
+                materialCosts: widget.project.materialCosts,
+                totalCosts: widget.project.totalCosts,
+              );
+
+              // Save to Firestore
+              await db.updateProject(project: project);
+              print(project.projectAddress1);
+              print(project.projectCity);
+              print(project.projectState);
+              print(project.projectPostCode);
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+              showMessage("Project updated!");
+              // ignore: use_build_context_synchronously
+              Beamer.of(context).beamToNamed('/projects');
+            } catch (e) {
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+              showMessage(e.toString());
+            }
           },
         ),
       ),
@@ -1040,3 +1129,6 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     // no bottom nav bar, just back button up top
   }
 }
+
+// TODO: Bottom nav bar: summary, selections, resources, tasks, plans, proposals
+// Drag & Drop/ choose from device & button to link 

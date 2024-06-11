@@ -30,7 +30,7 @@ class ProjectsPage extends ConsumerWidget {
         title: const Text('Projects'),
       ),
       body: FutureBuilder(
-        future: getProjects(), // TODO: Getting snapshot error
+        future: getProjects(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
