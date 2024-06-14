@@ -319,7 +319,7 @@ class FirestoreService {
           .set({
         'taskID': task.taskID,
         'taskHeading': task.taskHeading,
-        'taskDescription': task.taskDescription,
+        'notes': task.notes,
         'projectID': task.projectID,
         'taskSchedule': task.taskSchedule,
         'taskStatus': task.taskStatus,
@@ -345,7 +345,7 @@ class FirestoreService {
       return Task(
         taskID: task['taskID'],
         taskHeading: task['taskHeading'],
-        taskDescription: task['taskDescription'],
+        notes: task['notes'],
         projectID: task['projectID'],
         taskSchedule: task['taskSchedule'],
         taskStatus: task['taskStatus'],
@@ -370,7 +370,7 @@ class FirestoreService {
           .map((task) => Task(
                 taskID: task['taskID'],
                 taskHeading: task['taskHeading'],
-                taskDescription: task['taskDescription'],
+                notes: task['notes'],
                 projectID: task['projectID'],
                 taskSchedule: task['taskSchedule'],
                 taskStatus: task['taskStatus'],
@@ -388,6 +388,21 @@ class FirestoreService {
     }
   }
 
+  // Get company tasks
+  Future<List<dynamic>> getUserTasks({required String userID}) async {
+    try {
+      final projects = await getProjects(userID: userID);
+      List<dynamic> allTasks = [];
+      for (Project project in projects) {
+        allTasks.addAll(project.tasks);
+      }
+      return allTasks;
+    } catch (e) {
+      print("Get User Task Issue!");
+      rethrow;
+    }
+  }
+
   // Update task
   Future<void> updateTask({required Task task}) async {
     try {
@@ -398,7 +413,7 @@ class FirestoreService {
           .update({
         'taskID': task.taskID,
         'taskHeading': task.taskHeading,
-        'taskDescription': task.taskDescription,
+        'notes': task.notes,
         'projectID': task.projectID,
         'taskSchedule': task.taskSchedule,
         'taskStatus': task.taskStatus,

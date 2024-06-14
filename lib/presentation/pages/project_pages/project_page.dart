@@ -13,6 +13,8 @@ import '../../state_management/providers.dart';
 
 import '../../../domain/model/project_model.dart';
 
+// TODO 99: Add budget implementation? Check with Darc
+
 enum CostType { labour, material }
 
 class ProjectPage extends ConsumerStatefulWidget {
@@ -219,8 +221,6 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
               },
             );
 
-            // TODO 00: street address, city, state, postcode not saving
-
             try {
               if (validate.validateTitle(titleController.text.trim()) != null) {
                 throw "Title is required";
@@ -290,10 +290,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
 
               // Save to Firestore
               await db.updateProject(project: project);
-              print(project.projectAddress1);
-              print(project.projectCity);
-              print(project.projectState);
-              print(project.projectPostCode);
+
               // ignore: use_build_context_synchronously
               Navigator.pop(context);
               showMessage("Project updated!");
@@ -1128,7 +1125,6 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     );
     // no bottom nav bar, just back button up top
   }
+  // TODO: Bottom nav bar: summary, selections, resources, tasks, plans, proposals
+//  Drag & Drop/ choose from device & button to link
 }
-
-// TODO: Bottom nav bar: summary, selections, resources, tasks, plans, proposals
-// Drag & Drop/ choose from device & button to link 

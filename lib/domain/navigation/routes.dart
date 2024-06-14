@@ -14,8 +14,11 @@ import '../../presentation/pages/search_page.dart';
 import '../../presentation/pages/settings_page.dart';
 import '../../presentation/pages/auth_pages/sign_in_page.dart';
 import '../../presentation/pages/auth_pages/sign_up_page.dart';
-import '../../presentation/pages/tasks_page.dart';
+import '../../presentation/pages/task_pages/new_task_page.dart';
+import '../../presentation/pages/task_pages/task_page.dart';
+import '../../presentation/pages/task_pages/tasks_page.dart';
 import '../model/project_model.dart';
+import '../model/task_model.dart';
 
 // TODO 99: manipulate views depending on user access level
 
@@ -84,6 +87,22 @@ final routerDelegate = BeamerDelegate(
           //'$data.taskHeading',
           child: TasksPage(),
           //TaskPage(task: data as Task, taskID: data.taskID),
+        );
+      },
+      '/new-task': (context, state, data) {
+        return const BeamPage(
+          key: ValueKey('new-task'),
+          type: BeamPageType.noTransition,
+          title: 'New Task',
+          child: NewTaskPage(),
+        );
+      },
+      '/task-page': (context, state, data) {
+        return BeamPage(
+          key: const ValueKey('task-page'),
+          type: BeamPageType.noTransition,
+          title: '$data.taskHeading',
+          child: TaskPage(task: data as Task, taskID: data.taskID),
         );
       },
       '/projects': (context, state, data) {

@@ -450,7 +450,7 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
                             _secondaryClientPhoneController.text.trim(),
                         projectNotes: "",
                         tasks: [],
-                        labourCosts: {}, // TODO 00: fix these
+                        labourCosts: {},
                         materialCosts: {},
                         totalCosts: 0.0,
                       );

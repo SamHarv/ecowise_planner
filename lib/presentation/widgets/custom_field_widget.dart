@@ -8,6 +8,7 @@ class CustomFieldWidget extends ConsumerWidget {
   final double width;
   final TextInputType keyboardType;
   final int maxLines;
+  final void Function(String)? onChanged;
 
   const CustomFieldWidget({
     super.key,
@@ -17,6 +18,7 @@ class CustomFieldWidget extends ConsumerWidget {
     required this.width,
     required this.keyboardType,
     this.maxLines = 1,
+    this.onChanged,
   });
 
   @override
@@ -24,6 +26,7 @@ class CustomFieldWidget extends ConsumerWidget {
     return SizedBox(
       width: width,
       child: TextField(
+        onChanged: onChanged,
         controller: textController,
         textInputAction: TextInputAction.next,
         textCapitalization: textCapitalization,

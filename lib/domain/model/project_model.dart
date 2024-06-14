@@ -1,5 +1,7 @@
 // import 'task_model.dart';
 
+import 'task_model.dart';
+
 class Project {
   final String projectID;
   final String companyID;
@@ -19,7 +21,7 @@ class Project {
   String? secondaryClientEmail;
   String? secondaryClientPhone;
   String? projectNotes;
-  final List<dynamic>? tasks;
+  final List<dynamic> tasks;
   final Map<String, dynamic> labourCosts;
   final Map<String, dynamic> materialCosts;
   final double totalCosts;
@@ -45,7 +47,7 @@ class Project {
     this.secondaryClientEmail,
     this.secondaryClientPhone,
     this.projectNotes,
-    this.tasks,
+    this.tasks = const [],
     this.labourCosts = const {},
     this.materialCosts = const {},
     required this.totalCosts,

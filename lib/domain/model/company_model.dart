@@ -1,7 +1,10 @@
+import 'package:ecowise_planner/domain/model/project_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Company {
   final String companyID;
   final String name;
-  final List<dynamic> employees;
+  final List<User> employees;
   final List<dynamic> projects;
 
   Company({

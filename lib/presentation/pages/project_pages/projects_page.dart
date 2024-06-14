@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:ecowise_planner/presentation/widgets/custom_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,29 +7,50 @@ import '../../../domain/model/project_model.dart';
 import '../../state_management/providers.dart';
 import '../../widgets/custom_bottom_nav_bar_widget.dart';
 
-// TODO 55: add search bar for projects
-
-class ProjectsPage extends ConsumerWidget {
+class ProjectsPage extends ConsumerStatefulWidget {
   const ProjectsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProjectsPageState();
+}
+
+class _ProjectsPageState extends ConsumerState<ProjectsPage> {
+  final _searchTextController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     final auth = ref.read(firebaseAuth);
     final db = ref.read(firestore);
+    String searchTerm = _searchTextController.text.trim().toLowerCase();
 
     Future<List<Project>> getProjects() async {
       final projects = await db.getProjects(userID: auth.user!.uid);
+      // sort projects by due date
+      projects.sort((a, b) => a.projectDueDate.compareTo(b.projectDueDate));
       return projects;
     }
 
     return Scaffold(
       appBar: AppBar(
-        shape: const Border(
-          bottom: BorderSide(color: Colors.grey, width: 1.0),
-        ),
-        centerTitle: false,
-        title: const Text('Projects'),
-      ),
+          shape: const Border(
+            bottom: BorderSide(color: Colors.grey, width: 1.0),
+          ),
+          centerTitle: false,
+          title: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: CustomFieldWidget(
+              hintText: 'Search Projects',
+              textController: _searchTextController,
+              textCapitalization: TextCapitalization.none,
+              keyboardType: TextInputType.text,
+              width: double.infinity,
+              onChanged: (value) {
+                setState(() {
+                  searchTerm = value.toLowerCase();
+                });
+              },
+            ),
+          )),
       body: FutureBuilder(
         future: getProjects(),
         builder: (context, snapshot) {
@@ -38,6 +60,7 @@ class ProjectsPage extends ConsumerWidget {
             );
           }
           if (snapshot.hasError) {
+            print("Projects Page: ${snapshot.error}");
             return Center(
               child: Text('An error occurred! ${snapshot.error}'),
             );
@@ -52,6 +75,27 @@ class ProjectsPage extends ConsumerWidget {
             itemCount: projects.length,
             itemBuilder: (context, index) {
               final project = projects[index];
+              if (searchTerm.toLowerCase() != "") {
+                if (!project.projectTitle.toLowerCase().contains(searchTerm) &&
+                    !project.primaryClientName
+                        .toLowerCase()
+                        .contains(searchTerm) &&
+                    !project.projectDescription
+                        .toLowerCase()
+                        .contains(searchTerm) &&
+                    !project.projectAddress1
+                        .toLowerCase()
+                        .contains(searchTerm) &&
+                    !project.projectCity.toLowerCase().contains(searchTerm) &&
+                    !project.projectState.toLowerCase().contains(searchTerm) &&
+                    !project.projectPostCode
+                        .toLowerCase()
+                        .contains(searchTerm) &&
+                    !project.projectStatus.toLowerCase().contains(searchTerm)) {
+                  return const SizedBox.shrink();
+                }
+              }
+
               return ListTile(
                 title: Text(project.projectTitle),
                 subtitle: Align(
