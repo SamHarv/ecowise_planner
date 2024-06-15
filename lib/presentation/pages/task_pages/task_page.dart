@@ -199,7 +199,7 @@ class _ProjectPageState extends ConsumerState<TaskPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Project View"),
+        title: const Text("Task View"),
         shape: const Border(
           bottom: BorderSide(color: Colors.grey, width: 1.0),
         ),
@@ -210,6 +210,7 @@ class _ProjectPageState extends ConsumerState<TaskPage> {
             color: Colors.white,
           ),
           onPressed: () async {
+            Beamer.of(context).beamToNamed('/projects');
             //         showDialog(
             //           context: context,
             //           barrierDismissible: false,

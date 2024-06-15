@@ -195,6 +195,13 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     final auth = ref.read(firebaseAuth);
     final db = ref.read(firestore);
     final validate = ref.read(validation);
+
+    Future<List<dynamic>> getTasks() async {
+      final tasks = await db.getTasks(
+          userID: auth.user!.uid, projectID: widget.project.projectID);
+      return tasks;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -853,36 +860,127 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                     ),
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: ListView(
-                    children: [
-                      for (int index = 0; index < tempMap.length; index++)
-                        ExpansionTile(
-                          shape: index == 0
-                              ? const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(24),
-                                    topRight: Radius.circular(24),
-                                  ),
-                                )
-                              : null,
-                          collapsedShape: index == 0
-                              ? const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(24),
-                                    topRight: Radius.circular(24),
-                                  ),
-                                )
-                              : null,
-                          title: Text(
-                            tempMap.keys.elementAt(index),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                  child: FutureBuilder(
+                    future: getTasks(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text('An error occurred! ${snapshot.error}'),
+                        );
+                      }
+                      final tasks = snapshot.data!;
+                      if (tasks.isEmpty) {
+                        return const Center(
+                          child: Text('No Tasks Found!'),
+                        );
+                      }
+                      return ListView(
+                        children: [
+                          ExpansionTile(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(24),
+                                topRight: Radius.circular(24),
+                              ),
+                            ),
+                            collapsedShape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(24),
+                                topRight: Radius.circular(24),
+                              ),
+                            ),
+                            title: const Text(
+                              "Now",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            // Tasks where due date is within one day
+                            children: tasks
+                                .where((task) =>
+                                    DateTime.parse(task.taskDueDate)
+                                        .difference(DateTime.now())
+                                        .inDays <=
+                                    1)
+                                .map<Widget>((task) {
+                              return ListTile(
+                                title: Text(task.taskHeading),
+                                subtitle: Text(
+                                    "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                                    "${task.taskDueDate.toString().substring(5, 7)}-"
+                                    "${task.taskDueDate.toString().substring(0, 4)}"),
+                                onTap: () {
+                                  Beamer.of(context).beamToNamed(
+                                    '/task-page',
+                                    data: task,
+                                  );
+                                },
+                              );
+                            }).toList(),
                           ),
-                          children: tempMap.values
-                              .elementAt(index)
-                              .map((e) => ListTile(title: Text(e)))
-                              .toList(),
-                        ),
-                    ],
+                          ExpansionTile(
+                            title: const Text(
+                              "Coming Up",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            // Tasks where due date is tomorrow
+                            children: tasks
+                                .where((task) =>
+                                    DateTime.parse(task.taskDueDate)
+                                        .difference(DateTime.now())
+                                        .inDays <=
+                                    7)
+                                .map<Widget>((task) {
+                              return ListTile(
+                                title: Text(task.taskHeading),
+                                subtitle: Text(
+                                  "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                                  "${task.taskDueDate.toString().substring(5, 7)}-"
+                                  "${task.taskDueDate.toString().substring(0, 4)}",
+                                ),
+                                onTap: () {
+                                  Beamer.of(context).beamToNamed(
+                                    '/task-page',
+                                    data: task,
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          ),
+                          ExpansionTile(
+                            title: const Text(
+                              "Future",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            // Tasks where due date is later
+                            children: tasks
+                                .where((task) =>
+                                    DateTime.parse(task.taskDueDate)
+                                        .difference(DateTime.now())
+                                        .inDays >
+                                    7)
+                                .map<Widget>((task) {
+                              return ListTile(
+                                title: Text(task.taskHeading),
+                                subtitle: Text(
+                                    "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                                    "${task.taskDueDate.toString().substring(5, 7)}-"
+                                    "${task.taskDueDate.toString().substring(0, 4)}"),
+                                onTap: () {
+                                  Beamer.of(context).beamToNamed(
+                                    '/task-page',
+                                    data: task,
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 gapH20,

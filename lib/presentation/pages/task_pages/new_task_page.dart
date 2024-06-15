@@ -80,7 +80,6 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
   }
 
   late String projectID;
-  String tempID = "";
   final _headingController = TextEditingController();
   final _notesController = TextEditingController();
   String _schedule = "";
@@ -215,7 +214,6 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                     }
                     return CustomDropdownMenuWidget(
                       dropdownMenuEntries: projects.map((project) {
-                        tempID = project.projectID;
                         return DropdownMenuEntry(
                           value: project.projectID,
                           label: project.projectTitle,
@@ -223,10 +221,9 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                       }).toList(),
                       onSelected: (option) {
                         if (option != null) {
-                          setState(() {
-                            projectID = option;
-                            // projectID = tempID;
-                          });
+                          // setState(() {
+                          projectID = option;
+                          // });
                         }
                       },
                       width: mediaWidth * 0.9,
@@ -270,9 +267,9 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                 ],
                 onSelected: (schedule) {
                   if (schedule != null) {
-                    setState(() {
-                      _schedule = schedule;
-                    });
+                    // setState(() {
+                    _schedule = schedule;
+                    // });
                   }
                 },
                 width: mediaWidth * 0.9,
@@ -289,9 +286,9 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                 ],
                 onSelected: (status) {
                   if (status != null) {
-                    setState(() {
-                      _status = status;
-                    });
+                    // setState(() {
+                    _status = status;
+                    // });
                   }
                 },
                 width: mediaWidth * 0.9,
@@ -318,9 +315,9 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                   firstDate: DateTime.now(),
                   lastDate: DateTime(2100, 12, 31),
                   onDateChanged: (date) {
-                    setState(() {
-                      _dueDate = date.toString();
-                    });
+                    // setState(() {
+                    _dueDate = date.toString();
+                    // });
                   },
                 ),
               ),
@@ -355,9 +352,9 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                     }).toList(),
                     onSelected: (user) {
                       if (user != null) {
-                        setState(() {
-                          assignedTo.add(user);
-                        });
+                        // setState(() {
+                        assignedTo.add(user);
+                        // });
                       }
                     },
                     width: mediaWidth * 0.9,
@@ -473,8 +470,17 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                         totalCosts: 0,
                       );
 
+                      String userID = auth.user!.uid;
+
+                      // Update project with new task
+                      String companyID = await db.getCompanyID(userID: userID);
+                      Project project = await db.getProject(
+                          companyID: companyID, projectID: projectID);
+                      project.tasks.add(taskId);
+                      await db.updateProject(project: project);
+
                       // Save to Firestore
-                      await db.addTask(task: task);
+                      await db.addTask(task: task, userID: userID);
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                       showMessage("Project added!");

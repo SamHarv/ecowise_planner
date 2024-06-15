@@ -3,16 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/model/task_model.dart';
 import '../../state_management/providers.dart';
+import '../../widgets/bottom_nav_bar_menu_widget.dart';
 import '../../widgets/custom_bottom_nav_bar_widget.dart';
 
 // TODO: Track who assigned and when
 // TODO 11: Search bar for tasks
-
-class TasksPage extends ConsumerWidget {
+class TasksPage extends ConsumerStatefulWidget {
   const TasksPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _TasksPageState();
+}
+
+class _TasksPageState extends ConsumerState<TasksPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    isSelected = [false, true, false, false, false];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final db = ref.read(firestore);
     final auth = ref.read(firebaseAuth);
 
@@ -20,7 +32,7 @@ class TasksPage extends ConsumerWidget {
     Future<List<dynamic>> getTasks() async {
       final tasks = await db.getUserTasks(userID: auth.user!.uid);
       // sort tasks by due date
-      tasks.sort((a, b) => a.taskDueDate.compareTo(b.taskDueDate));
+      // tasks.sort((a, b) => a.taskDueDate.compareTo(b.taskDueDate));
       return tasks;
     }
 
@@ -69,7 +81,10 @@ class TasksPage extends ConsumerWidget {
                       .map<Widget>((task) {
                     return ListTile(
                       title: Text(task.taskHeading),
-                      subtitle: Text(task.taskDueDate),
+                      subtitle: Text(
+                          "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                          "${task.taskDueDate.toString().substring(5, 7)}-"
+                          "${task.taskDueDate.toString().substring(0, 4)}"),
                       onTap: () {
                         Beamer.of(context).beamToNamed(
                           '/task-page',
@@ -94,7 +109,11 @@ class TasksPage extends ConsumerWidget {
                       .map<Widget>((task) {
                     return ListTile(
                       title: Text(task.taskHeading),
-                      subtitle: Text(task.taskDueDate),
+                      subtitle: Text(
+                        "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                        "${task.taskDueDate.toString().substring(5, 7)}-"
+                        "${task.taskDueDate.toString().substring(0, 4)}",
+                      ),
                       onTap: () {
                         Beamer.of(context).beamToNamed(
                           '/task-page',
@@ -119,7 +138,10 @@ class TasksPage extends ConsumerWidget {
                       .map<Widget>((task) {
                     return ListTile(
                       title: Text(task.taskHeading),
-                      subtitle: Text(task.taskDueDate),
+                      subtitle: Text(
+                          "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                          "${task.taskDueDate.toString().substring(5, 7)}-"
+                          "${task.taskDueDate.toString().substring(0, 4)}"),
                       onTap: () {
                         Beamer.of(context).beamToNamed(
                           '/task-page',

@@ -1,3 +1,4 @@
+import 'package:ecowise_planner/presentation/widgets/bottom_nav_bar_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,6 +32,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     getCompanyName();
+    isSelected = [true, false, false, false, false];
     super.initState();
   }
 

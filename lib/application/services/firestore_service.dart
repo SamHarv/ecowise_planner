@@ -309,10 +309,14 @@ class FirestoreService {
     }
   }
 
+// TODO 00: Create tasks under company then under project
   // Create a task
-  Future<void> addTask({required Task task}) async {
+  Future<void> addTask({required Task task, required String userID}) async {
     try {
+      String companyID = await getCompanyID(userID: userID);
       await _companies
+          .doc(companyID)
+          .collection('projects')
           .doc(task.projectID)
           .collection('tasks')
           .doc(task.taskID)
@@ -338,10 +342,18 @@ class FirestoreService {
 
   // Get a task
   Future<Task> getTask(
-      {required String projectID, required String taskID}) async {
+      {required String projectID,
+      required String taskID,
+      required String userID}) async {
     try {
-      final task =
-          await _companies.doc(projectID).collection('tasks').doc(taskID).get();
+      String companyID = await getCompanyID(userID: userID);
+      final task = await _companies
+          .doc(companyID)
+          .collection('projects')
+          .doc(projectID)
+          .collection('tasks')
+          .doc(taskID)
+          .get();
       return Task(
         taskID: task['taskID'],
         taskHeading: task['taskHeading'],
@@ -363,9 +375,16 @@ class FirestoreService {
   }
 
   // Get tasks
-  Future<List<Task>> getTasks({required String projectID}) async {
+  Future<List<Task>> getTasks(
+      {required String projectID, required String userID}) async {
     try {
-      final tasks = await _companies.doc(projectID).collection('tasks').get();
+      String companyID = await getCompanyID(userID: userID);
+      final tasks = await _companies
+          .doc(companyID)
+          .collection('projects')
+          .doc(projectID)
+          .collection('tasks')
+          .get();
       return tasks.docs
           .map((task) => Task(
                 taskID: task['taskID'],
@@ -394,19 +413,23 @@ class FirestoreService {
       final projects = await getProjects(userID: userID);
       List<dynamic> allTasks = [];
       for (Project project in projects) {
-        allTasks.addAll(project.tasks);
+        var projTasks =
+            await getTasks(projectID: project.projectID, userID: userID);
+        allTasks.addAll(projTasks);
       }
       return allTasks;
     } catch (e) {
-      print("Get User Task Issue!");
       rethrow;
     }
   }
 
   // Update task
-  Future<void> updateTask({required Task task}) async {
+  Future<void> updateTask({required Task task, required String userID}) async {
     try {
+      String companyID = await getCompanyID(userID: userID);
       await _companies
+          .doc(companyID)
+          .collection('projects')
           .doc(task.projectID)
           .collection('tasks')
           .doc(task.taskID)
@@ -432,9 +455,18 @@ class FirestoreService {
 
   // Delete task
   Future<void> deleteTask(
-      {required String projectID, required String taskID}) async {
+      {required String projectID,
+      required String taskID,
+      required String userID}) async {
     try {
-      await _companies.doc(projectID).collection('tasks').doc(taskID).delete();
+      String companyID = await getCompanyID(userID: userID);
+      await _companies
+          .doc(companyID)
+          .collection('projects')
+          .doc(projectID)
+          .collection('tasks')
+          .doc(taskID)
+          .delete();
     } catch (e) {
       rethrow;
     }

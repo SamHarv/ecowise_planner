@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:ecowise_planner/presentation/widgets/bottom_nav_bar_menu_widget.dart';
 import 'package:ecowise_planner/presentation/widgets/custom_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,12 @@ class ProjectsPage extends ConsumerStatefulWidget {
 
 class _ProjectsPageState extends ConsumerState<ProjectsPage> {
   final _searchTextController = TextEditingController();
+
+  @override
+  void initState() {
+    isSelected = [false, false, true, false, false];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +43,8 @@ class _ProjectsPageState extends ConsumerState<ProjectsPage> {
             bottom: BorderSide(color: Colors.grey, width: 1.0),
           ),
           centerTitle: false,
-          title: Padding(
-            padding: const EdgeInsets.all(4.0),
+          title: SizedBox(
+            height: 35,
             child: CustomFieldWidget(
               hintText: 'Search Projects',
               textController: _searchTextController,

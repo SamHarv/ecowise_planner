@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:ecowise_planner/presentation/widgets/bottom_nav_bar_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../state_management/providers.dart';
@@ -31,6 +32,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   void initState() {
     getUserName();
+    isSelected = [false, false, false, false, true];
     super.initState();
   }
 
