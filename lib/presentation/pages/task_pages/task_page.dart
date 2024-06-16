@@ -34,32 +34,32 @@ class TaskPage extends ConsumerStatefulWidget {
 
 class _ProjectPageState extends ConsumerState<TaskPage> {
   // bool editingAddress = false;
-  // final tempMap = {
-  //   'Now': [
-  //     'Task 1',
-  //     'Task 2',
-  //     'Task 3',
-  //     'Task 4',
-  //     'Task 5',
-  //     'Task 6',
-  //   ],
-  //   'Coming Up': [
-  //     'Task 7',
-  //     'Task 8',
-  //     'Task 9',
-  //     'Task 10',
-  //     'Task 11',
-  //     'Task 12',
-  //   ],
-  //   'Future': [
-  //     'Task 13',
-  //     'Task 14',
-  //     'Task 15',
-  //     'Task 16',
-  //     'Task 17',
-  //     'Task 18',
-  //   ],
-  // };
+  final tempMap = {
+    'Now': [
+      'Task 1',
+      'Task 2',
+      'Task 3',
+      'Task 4',
+      'Task 5',
+      'Task 6',
+    ],
+    'Coming Up': [
+      'Task 7',
+      'Task 8',
+      'Task 9',
+      'Task 10',
+      'Task 11',
+      'Task 12',
+    ],
+    'Future': [
+      'Task 13',
+      'Task 14',
+      'Task 15',
+      'Task 16',
+      'Task 17',
+      'Task 18',
+    ],
+  };
   // void showMessage(String message) {
   //   showDialog(
   //     context: context,

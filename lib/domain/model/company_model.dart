@@ -1,4 +1,3 @@
-import 'package:ecowise_planner/domain/model/project_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Company {

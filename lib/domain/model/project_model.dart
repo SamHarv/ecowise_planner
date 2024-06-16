@@ -1,7 +1,3 @@
-// import 'task_model.dart';
-
-import 'task_model.dart';
-
 class Project {
   final String projectID;
   final String companyID;

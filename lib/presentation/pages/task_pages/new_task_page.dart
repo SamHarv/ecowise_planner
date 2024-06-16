@@ -1,9 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:ecowise_planner/domain/model/task_model.dart';
-import 'package:ecowise_planner/domain/model/user_model.dart';
 import 'package:ecowise_planner/domain/utils/constants.dart';
 import 'package:ecowise_planner/presentation/widgets/custom_dropdown_menu_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -12,11 +10,6 @@ import '../../state_management/providers.dart';
 import '../../widgets/borderless_field_widget.dart';
 import '../../widgets/custom_dialog_widget.dart';
 import '../../widgets/custom_field_widget.dart';
-
-// TODO 00: workflow
-//  Select project related to task
-//  Enter task info
-//  Validate and add to DB
 
 class NewTaskPage extends ConsumerStatefulWidget {
   const NewTaskPage({super.key});
@@ -371,7 +364,7 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                 ),
               ),
               gapH20,
-              // TODO 11: implement sub tasks here properly
+              // TODO 11: Implement sub tasks properly
               Container(
                 width: mediaWidth * 0.9,
                 height: 300,

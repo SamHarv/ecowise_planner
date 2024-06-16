@@ -309,7 +309,6 @@ class FirestoreService {
     }
   }
 
-// TODO 00: Create tasks under company then under project
   // Create a task
   Future<void> addTask({required Task task, required String userID}) async {
     try {

@@ -1,7 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../domain/model/task_model.dart';
 import '../../state_management/providers.dart';
 import '../../widgets/bottom_nav_bar_menu_widget.dart';
 import '../../widgets/custom_bottom_nav_bar_widget.dart';
@@ -18,7 +17,6 @@ class TasksPage extends ConsumerStatefulWidget {
 class _TasksPageState extends ConsumerState<TasksPage> {
   @override
   void initState() {
-    // TODO: implement initState
     isSelected = [false, true, false, false, false];
     super.initState();
   }
