@@ -51,7 +51,6 @@ class _TasksPageState extends ConsumerState<TasksPage> {
               );
             }
             if (snapshot.hasError) {
-              print(snapshot.error);
               return Center(
                 child: Text('An error occurred! ${snapshot.error}'),
               );

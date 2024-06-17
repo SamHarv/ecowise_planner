@@ -1,11 +1,11 @@
 class Task {
   final String taskID;
-  final String taskHeading;
-  final String? notes;
+  String taskHeading;
+  String? notes;
   final String projectID;
-  final String taskSchedule; // Pre-task or task
-  final String taskStatus; // for action, in progress, awaiting, complete
-  final String taskDueDate;
+  String taskSchedule; // Pre-task or task
+  String taskStatus; // for action, in progress, awaiting, complete
+  String taskDueDate;
   final String taskCreatedDate;
   final List<dynamic>? subTasks;
   final List<dynamic>? assignedTo;

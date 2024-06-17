@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 class Company {
   final String companyID;
   final String name;
-  final List<User> employees;
+  final List<dynamic> employees;
   final List<dynamic> projects;
 
   Company({

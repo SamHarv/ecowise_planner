@@ -81,7 +81,7 @@ final routerDelegate = BeamerDelegate(
       },
       '/tasks': (context, state, data) {
         return const BeamPage(
-          key: ValueKey('task-page'),
+          key: ValueKey('tasks'),
           type: BeamPageType.noTransition,
           title: 'Tasks',
           //'$data.taskHeading',
