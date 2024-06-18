@@ -351,7 +351,7 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                       }
                     },
                     width: mediaWidth * 0.9,
-                    label: "Assigned To: $assignedTo",
+                    label: "Assigned To:",
                   );
                 },
               ),
@@ -380,6 +380,7 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                   children: [
                     for (int index = 0; index < tempMap.length; index++)
                       ExpansionTile(
+                        initiallyExpanded: true,
                         shape: index == 0
                             ? const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
@@ -446,6 +447,8 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                       const uuid = Uuid();
                       String taskId = uuid.v4();
 
+                      final user = await db.getUser(userID: auth.user!.uid);
+
                       // Create Task object
                       final task = Task(
                         projectID: projectID,
@@ -458,6 +461,7 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                         taskCreatedDate: DateTime.now().toString(),
                         subTasks: [],
                         assignedTo: assignedTo,
+                        assignedBy: "${user.firstName} ${user.surname}",
                         labourCosts: {},
                         materialCosts: {},
                         totalCosts: 0,

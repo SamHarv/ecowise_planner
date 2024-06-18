@@ -289,7 +289,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                 secondaryClientPhone:
                     secondaryClientPhoneController.text.trim(),
                 projectNotes: projectNotesController.text.trim(),
-                tasks: [], // TODO 11: Tasks
+                tasks: widget.project.tasks,
                 labourCosts: widget.project.labourCosts,
                 materialCosts: widget.project.materialCosts,
                 totalCosts: widget.project.totalCosts,
@@ -848,7 +848,6 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                   ),
                 ),
                 gapH20,
-                // TODO 11: implement tasks here properly
                 Container(
                   width: mediaWidth * 0.9,
                   height: 300,
@@ -882,6 +881,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                       return ListView(
                         children: [
                           ExpansionTile(
+                            initiallyExpanded: true,
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(24),
@@ -922,6 +922,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                             }).toList(),
                           ),
                           ExpansionTile(
+                            initiallyExpanded: true,
                             title: const Text(
                               "Coming Up",
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -930,9 +931,13 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                             children: tasks
                                 .where((task) =>
                                     DateTime.parse(task.taskDueDate)
-                                        .difference(DateTime.now())
-                                        .inDays <=
-                                    7)
+                                            .difference(DateTime.now())
+                                            .inDays <=
+                                        7 &&
+                                    DateTime.parse(task.taskDueDate)
+                                            .difference(DateTime.now())
+                                            .inDays >
+                                        1)
                                 .map<Widget>((task) {
                               return ListTile(
                                 title: Text(task.taskHeading),
@@ -951,6 +956,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                             }).toList(),
                           ),
                           ExpansionTile(
+                            initiallyExpanded: true,
                             title: const Text(
                               "Future",
                               style: TextStyle(fontWeight: FontWeight.bold),

@@ -8,7 +8,8 @@ class Task {
   String taskDueDate;
   final String taskCreatedDate;
   final List<dynamic>? subTasks;
-  final List<dynamic>? assignedTo;
+  List<dynamic>? assignedTo;
+  String assignedBy;
   final Map<String, dynamic>
       labourCosts; // need to be able to generate to spreadsheet
   final Map<String, dynamic> materialCosts;
@@ -25,7 +26,8 @@ class Task {
     required this.taskDueDate,
     required this.taskCreatedDate,
     this.subTasks,
-    this.assignedTo,
+    this.assignedTo = const [],
+    required this.assignedBy,
     this.labourCosts = const {},
     this.materialCosts = const {},
     required this.totalCosts,

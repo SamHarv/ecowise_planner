@@ -1,4 +1,5 @@
 import 'package:ecowise_planner/domain/model/task_model.dart';
+import 'package:ecowise_planner/domain/model/user_model.dart';
 import 'package:ecowise_planner/presentation/widgets/borderless_dropdown_menu_widget.dart';
 import 'package:ecowise_planner/presentation/widgets/borderless_field_widget.dart';
 import 'package:ecowise_planner/presentation/widgets/custom_dialog_widget.dart';
@@ -136,6 +137,12 @@ class _TaskPageState extends ConsumerState<TaskPage> {
       return project;
     }
 
+    Future<List<dynamic>> getUsers() async {
+      final user = await db.getUser(userID: auth.user!.uid);
+      final users = await db.getUsers(companyID: user.companyID);
+      return users;
+    }
+
     String statusSwitch(String status) {
       switch (status) {
         case "for-action":
@@ -153,6 +160,15 @@ class _TaskPageState extends ConsumerState<TaskPage> {
       }
     }
 
+    Future<List<String>> getNames(List<dynamic> employees) async {
+      final names = <String>[];
+      for (var employee in employees) {
+        UserModel user = await db.getUser(userID: employee);
+        names.add("${user.firstName} ${user.surname}");
+      }
+      return names;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -167,7 +183,6 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             color: Colors.white,
           ),
           onPressed: () async {
-            Beamer.of(context).beamBack();
             showDialog(
               context: context,
               barrierDismissible: false,
@@ -203,7 +218,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
                 labourCosts: widget.task.labourCosts,
                 materialCosts: widget.task.materialCosts,
                 totalCosts: calculateTotalCosts(),
-                // TODO 11: assigned to
+                assignedTo: widget.task.assignedTo,
+                assignedBy: widget.task.assignedBy,
               );
 
               // Save to Firestore
@@ -281,22 +297,84 @@ class _TaskPageState extends ConsumerState<TaskPage> {
                   },
                 ),
                 gapH20,
-// TODO 11: fix assignedTo
-                BorderlessDropdownMenuWidget(
-                  hintText: "Assigned To", // widget.task.assignedTo,
-                  dropdownMenuEntries: const [
-                    DropdownMenuEntry(value: "Dave", label: "Dave"),
-                    DropdownMenuEntry(value: "Darc", label: "Darc"),
-                  ],
-                  onSelected: (employee) {
-                    if (employee != null) {
-                      setState(() {
-                        // widget.task.assignedTo = employee;
-                      });
-                    }
-                  },
+                FutureBuilder(
+                    future: getUsers(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text('An error occurred! ${snapshot.error}'),
+                        );
+                      }
+                      final users = snapshot.data!;
+                      if (users.isEmpty) {
+                        return const Center(
+                          child: Text('No Users Found!'),
+                        );
+                      }
+                      return FutureBuilder(
+                          future: getNames(widget.task.assignedTo!),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                    'An error occurred! ${snapshot.error}'),
+                              );
+                            }
+                            final assignedTo = snapshot.data!;
+                            if (assignedTo.isEmpty) {
+                              return const Center(
+                                child: Text('No Users Assigned!'),
+                              );
+                            }
+                            return BorderlessDropdownMenuWidget(
+                              hintText: widget.task.assignedTo == []
+                                  ? "Assigned To:"
+                                  : "Assigned To: ${assignedTo.toString()}",
+                              dropdownMenuEntries: users
+                                  .map(
+                                    (user) => DropdownMenuEntry(
+                                      value: user,
+                                      label:
+                                          "${user.firstName} ${user.surname}",
+                                    ),
+                                  )
+                                  .toList(),
+                              onSelected: (employee) {
+                                if (employee != null &&
+                                    !widget.task.assignedTo!
+                                        .contains(employee.userID)) {
+                                  setState(() {
+                                    widget.task.assignedTo!
+                                        .add(employee.userID);
+                                  });
+                                }
+                              },
+                              width: mediaWidth * 0.9 - 32,
+                              label: "Assigned To",
+                            );
+                          });
+                    }),
+                gapH20,
+                SizedBox(
                   width: mediaWidth * 0.9 - 32,
-                  label: "Assigned To",
+                  child: Text(
+                    "Assigned By: ${widget.task.assignedBy}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
                 gapH20,
                 // Task Schedule
@@ -477,6 +555,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
                     children: [
                       for (int index = 0; index < tempMap.length; index++)
                         ExpansionTile(
+                          initiallyExpanded: true,
                           shape: index == 0
                               ? const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(

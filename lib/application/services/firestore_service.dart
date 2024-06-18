@@ -96,10 +96,11 @@ class FirestoreService {
     }
   }
 
-  // Get users
+  // Get users where user.companyID == companyID
   Future<List<UserModel>> getUsers({required String companyID}) async {
     try {
-      final users = await _companies.doc(companyID).collection(companyID).get();
+      final users = await _users.where('companyID', isEqualTo: companyID).get();
+      // await _companies.doc(companyID).collection(companyID).get();
       return users.docs
           .map((user) => UserModel(
                 userID: user['userID'],
@@ -330,6 +331,7 @@ class FirestoreService {
         'taskCreatedDate': task.taskCreatedDate,
         'subTasks': task.subTasks,
         'assignedTo': task.assignedTo,
+        'assignedBy': task.assignedBy,
         'labourCosts': task.labourCosts,
         'materialCosts': task.materialCosts,
         'totalCosts': task.totalCosts,
@@ -364,6 +366,7 @@ class FirestoreService {
         taskCreatedDate: task['taskCreatedDate'],
         subTasks: task['subTasks'],
         assignedTo: task['assignedTo'],
+        assignedBy: task['assignedBy'],
         labourCosts: task['labourCosts'],
         materialCosts: task['materialCosts'],
         totalCosts: task['totalCosts'],
@@ -396,6 +399,7 @@ class FirestoreService {
                 taskCreatedDate: task['taskCreatedDate'],
                 subTasks: task['subTasks'],
                 assignedTo: task['assignedTo'],
+                assignedBy: task['assignedBy'],
                 labourCosts: task['labourCosts'],
                 materialCosts: task['materialCosts'],
                 totalCosts: task['totalCosts'],
@@ -443,6 +447,7 @@ class FirestoreService {
         'taskCreatedDate': task.taskCreatedDate,
         'subTasks': task.subTasks,
         'assignedTo': task.assignedTo,
+        'assignedBy': task.assignedBy,
         'labourCosts': task.labourCosts,
         'materialCosts': task.materialCosts,
         'totalCosts': task.totalCosts,

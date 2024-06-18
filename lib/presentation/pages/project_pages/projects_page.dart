@@ -67,7 +67,6 @@ class _ProjectsPageState extends ConsumerState<ProjectsPage> {
             );
           }
           if (snapshot.hasError) {
-            print("Projects Page: ${snapshot.error}");
             return Center(
               child: Text('An error occurred! ${snapshot.error}'),
             );
