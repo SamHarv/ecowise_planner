@@ -32,7 +32,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     getCompanyName();
-    isSelected = [true, false, false, false, false];
+    isSelected = [false, false, true, false, false];
     super.initState();
   }
 

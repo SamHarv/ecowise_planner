@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beamer/beamer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../widgets/bottom_nav_bar_menu_widget.dart';
 import '/domain/utils/constants.dart';
 
 import '../../state_management/providers.dart';
@@ -14,6 +15,11 @@ import '../../state_management/providers.dart';
 import '../../../domain/model/project_model.dart';
 
 // TODO 99: Add budget implementation? Check with Darc
+
+// TODO 00: Add bottom nav bar with Schedule (tasks & subtasks), plans and selections
+// (links to drive), labour (recordings will ideally go to excel proposals),
+// proposals (limited access, link to drive for quote, excel costings of labour,
+// excel costings of material (read off receipt), invoices), project management
 
 enum CostType { labour, material }
 
@@ -1226,9 +1232,71 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+        width: double.infinity,
+        height: 100,
+        decoration: const BoxDecoration(
+          color: Colors.black54,
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey,
+              width: 1.0,
+            ),
+          ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // TODO: Implement sub-project pages
+            BottomNavBarMenuWidget(
+              index: 0,
+              icon: Icons.home,
+              label: 'Schedule',
+              navDestination:
+                  'project-page', // TODO: need to ensure it links to this project!
+            ),
+            BottomNavBarMenuWidget(
+              index: 1,
+              icon: Icons.task,
+              label: 'Plans',
+              navDestination: 'plans',
+            ),
+            BottomNavBarMenuWidget(
+              index: 2,
+              icon: Icons.dashboard,
+              label: 'Proposals',
+              navDestination: 'proposals',
+            ),
+            BottomNavBarMenuWidget(
+              index: 3,
+              icon: Icons.settings,
+              label: 'Project',
+              navDestination: 'project-management',
+            ),
+            BottomNavBarMenuWidget(
+              index: 4,
+              icon: Icons.settings,
+              label: 'Labour',
+              navDestination: 'labour',
+            ),
+          ],
+        ),
+      ),
     );
     // no bottom nav bar, just back button up top
   }
-  // TODO: Bottom nav bar: summary, selections, resources, tasks, plans, proposals
+  // TODO:
+  // Schedule (with tasks)
+  // Plans (link to drive)
+  // Proposals (link to drive)
+  // Project Management (link to drive, Selections under here)
+  // Labour (link to excel)
+
+  // Resources instead of Home page
+
 //  Drag & Drop/ choose from device & button to link
 }

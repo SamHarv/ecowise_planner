@@ -25,10 +25,10 @@ import '../model/task_model.dart';
 FirebaseAuthService auth = FirebaseAuthService();
 
 final routerDelegate = BeamerDelegate(
-  notFoundRedirectNamed: auth.user == null ? '/sign-in' : '/home', // as below
+  notFoundRedirectNamed: auth.user == null ? '/sign-in' : '/tasks', // as below
   initialPath: auth.user == null
       ? '/sign-in'
-      : '/home', // check auth status and redirect to '/home' or '/login'
+      : '/tasks', // check auth status and redirect to '/home' or '/login'
   locationBuilder: RoutesLocationBuilder(
     routes: {
       '/home': (context, state, data) {

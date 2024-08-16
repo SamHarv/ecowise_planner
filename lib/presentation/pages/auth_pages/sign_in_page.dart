@@ -239,7 +239,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                                         .beamToNamed('/join-company')
                                     :
                                     // ignore: use_build_context_synchronously
-                                    Beamer.of(context).beamToNamed('/home');
+                                    Beamer.of(context).beamToNamed('/tasks');
                               } catch (e) {
                                 // ignore: use_build_context_synchronously
                                 Navigator.pop(context);

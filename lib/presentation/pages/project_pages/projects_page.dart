@@ -20,7 +20,7 @@ class _ProjectsPageState extends ConsumerState<ProjectsPage> {
 
   @override
   void initState() {
-    isSelected = [false, false, true, false, false];
+    isSelected = [false, true, false, false, false];
     super.initState();
   }
 

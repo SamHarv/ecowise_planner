@@ -32,7 +32,7 @@ class _TasksPageState extends ConsumerState<TasksPage> {
   final _searchTextController = TextEditingController();
   @override
   void initState() {
-    isSelected = [false, true, false, false, false];
+    isSelected = [true, false, false, false, false];
     super.initState();
   }
 

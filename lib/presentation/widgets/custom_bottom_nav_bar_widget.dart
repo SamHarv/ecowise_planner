@@ -34,21 +34,21 @@ class _CustomBottomNavBarWidgetState extends State<CustomBottomNavBarWidget> {
         children: [
           BottomNavBarMenuWidget(
             index: 0,
-            icon: Icons.home,
-            label: 'Home',
-            navDestination: 'home',
-          ),
-          BottomNavBarMenuWidget(
-            index: 1,
             icon: Icons.task,
             label: 'Tasks',
             navDestination: 'tasks',
           ),
           BottomNavBarMenuWidget(
-            index: 2,
+            index: 1,
             icon: Icons.dashboard,
             label: 'Projects',
             navDestination: 'projects',
+          ),
+          BottomNavBarMenuWidget(
+            index: 2,
+            icon: Icons.storage,
+            label: 'Resources',
+            navDestination: 'home',
           ),
           BottomNavBarMenuWidget(
             index: 3,
