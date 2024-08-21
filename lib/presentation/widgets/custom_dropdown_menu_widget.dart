@@ -21,7 +21,7 @@ class CustomDropdownMenuWidget extends ConsumerWidget {
       width: width,
       dropdownMenuEntries: dropdownMenuEntries,
       onSelected: onSelected,
-      enableFilter: true,
+      enableFilter: false,
       label: Text(label),
     );
   }

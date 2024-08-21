@@ -31,7 +31,7 @@ class BorderlessDropdownMenuWidget extends StatelessWidget {
       width: width,
       dropdownMenuEntries: dropdownMenuEntries,
       onSelected: onSelected,
-      enableFilter: true,
+      enableFilter: false,
       hintText: hintText,
     );
   }

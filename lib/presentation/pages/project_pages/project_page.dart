@@ -1274,8 +1274,8 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
             BottomNavBarMenuWidget(
               index: 3,
               icon: Icons.settings,
-              label: 'Project',
-              navDestination: 'project-management',
+              label: 'Management',
+              navDestination: 'management',
             ),
             BottomNavBarMenuWidget(
               index: 4,
