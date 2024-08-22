@@ -222,6 +222,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
             color: Colors.white,
           ),
           onPressed: () async {
+            bool valid = true;
             showDialog(
               context: context,
               barrierDismissible: false,
@@ -266,53 +267,58 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                 throw "Primary Contact Phone is required";
               }
             } catch (e) {
+              Navigator.pop(context);
               showMessage(e.toString());
+              valid = false;
             }
 
-            // Create Client objects
-            try {
-              final currentUser = await db.getUser(userID: auth.user!.uid);
+            if (valid) {
+              // Create Client objects
+              try {
+                final currentUser = await db.getUser(userID: auth.user!.uid);
 
-              // Create Project object
-              final project = Project(
-                projectID: widget.project.projectID,
-                companyID: currentUser.companyID,
-                projectTitle: titleController.text.trim(),
-                projectDescription: reference,
-                projectAddress1: widget.project.projectAddress1,
-                projectCity: cityController.text.trim(),
-                projectState: geoState,
-                projectPostCode: postcodeController.text.trim(),
-                projectStatus: status,
-                projectDueDate: dueDate,
-                projectCreatedDate: widget.project.projectCreatedDate,
-                primaryClientName: primaryClientNameController.text.trim(),
-                primaryClientEmail: primaryClientEmailController.text.trim(),
-                primaryClientPhone: primaryClientPhoneController.text.trim(),
-                secondaryClientName: secondaryClientNameController.text.trim(),
-                secondaryClientEmail:
-                    secondaryClientEmailController.text.trim(),
-                secondaryClientPhone:
-                    secondaryClientPhoneController.text.trim(),
-                projectNotes: projectNotesController.text.trim(),
-                tasks: widget.project.tasks,
-                labourCosts: widget.project.labourCosts,
-                materialCosts: widget.project.materialCosts,
-                totalCosts: widget.project.totalCosts,
-              );
+                // Create Project object
+                final project = Project(
+                  projectID: widget.project.projectID,
+                  companyID: currentUser.companyID,
+                  projectTitle: titleController.text.trim(),
+                  projectDescription: reference,
+                  projectAddress1: widget.project.projectAddress1,
+                  projectCity: cityController.text.trim(),
+                  projectState: geoState,
+                  projectPostCode: postcodeController.text.trim(),
+                  projectStatus: status,
+                  projectDueDate: dueDate,
+                  projectCreatedDate: widget.project.projectCreatedDate,
+                  primaryClientName: primaryClientNameController.text.trim(),
+                  primaryClientEmail: primaryClientEmailController.text.trim(),
+                  primaryClientPhone: primaryClientPhoneController.text.trim(),
+                  secondaryClientName:
+                      secondaryClientNameController.text.trim(),
+                  secondaryClientEmail:
+                      secondaryClientEmailController.text.trim(),
+                  secondaryClientPhone:
+                      secondaryClientPhoneController.text.trim(),
+                  projectNotes: projectNotesController.text.trim(),
+                  tasks: widget.project.tasks,
+                  labourCosts: widget.project.labourCosts,
+                  materialCosts: widget.project.materialCosts,
+                  totalCosts: widget.project.totalCosts,
+                );
 
-              // Save to Firestore
-              await db.updateProject(project: project);
+                // Save to Firestore
+                await db.updateProject(project: project);
 
-              // ignore: use_build_context_synchronously
-              Navigator.pop(context);
-              showMessage("Project updated!");
-              // ignore: use_build_context_synchronously
-              Beamer.of(context).beamToNamed('/projects');
-            } catch (e) {
-              // ignore: use_build_context_synchronously
-              Navigator.pop(context);
-              showMessage(e.toString());
+                // ignore: use_build_context_synchronously
+                Navigator.pop(context);
+                showMessage("Project updated!");
+                // ignore: use_build_context_synchronously
+                Beamer.of(context).beamToNamed('/projects');
+              } catch (e) {
+                // ignore: use_build_context_synchronously
+                Navigator.pop(context);
+                showMessage(e.toString());
+              }
             }
           },
         ),

@@ -364,6 +364,7 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
                     ),
                   ),
                   onPressed: () async {
+                    bool valid = true;
                     showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -413,60 +414,65 @@ class _NewProjectPageState extends ConsumerState<NewProjectPage> {
                         throw "Primary Contact Phone is required";
                       }
                     } catch (e) {
+                      Navigator.pop(context);
                       showMessage(e.toString());
+                      valid = false;
+                    } // finally?
+
+                    if (valid) {
+                      try {
+                        const uuid = Uuid();
+                        String projectId = uuid.v4();
+                        final currentUser =
+                            await db.getUser(userID: auth.user!.uid);
+
+                        // Create Project object
+                        final project = Project(
+                          projectID: projectId,
+                          companyID: currentUser.companyID,
+                          projectTitle: _titleController.text.trim(),
+                          projectDescription: _reference,
+                          projectAddress1: _streetAddressController.text.trim(),
+                          projectCity: _cityController.text.trim(),
+                          projectState: _geoState,
+                          projectPostCode: _postcodeController.text.trim(),
+                          projectStatus: _status,
+                          projectDueDate: _dueDate,
+                          projectCreatedDate: DateTime.now().toString(),
+                          primaryClientName:
+                              _primaryClientNameController.text.trim(),
+                          primaryClientEmail:
+                              _primaryClientEmailController.text.trim(),
+                          primaryClientPhone:
+                              _primaryClientPhoneController.text.trim(),
+                          secondaryClientName:
+                              _secondaryClientNameController.text.trim(),
+                          secondaryClientEmail:
+                              _secondaryClientEmailController.text.trim(),
+                          secondaryClientPhone:
+                              _secondaryClientPhoneController.text.trim(),
+                          projectNotes: "",
+                          tasks: [],
+                          labourCosts: {},
+                          materialCosts: {},
+                          totalCosts: 0.0,
+                        );
+
+                        // Save to Firestore
+                        await db.addProject(project: project);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                        showMessage("Project added!");
+                        // ignore: use_build_context_synchronously
+                        Beamer.of(context).beamToNamed('/projects');
+                      } catch (e) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                        showMessage(e.toString());
+                      }
                     }
 
                     // Create Client objects
-                    try {
-                      const uuid = Uuid();
-                      String projectId = uuid.v4();
-                      final currentUser =
-                          await db.getUser(userID: auth.user!.uid);
-
-                      // Create Project object
-                      final project = Project(
-                        projectID: projectId,
-                        companyID: currentUser.companyID,
-                        projectTitle: _titleController.text.trim(),
-                        projectDescription: _reference,
-                        projectAddress1: _streetAddressController.text.trim(),
-                        projectCity: _cityController.text.trim(),
-                        projectState: _geoState,
-                        projectPostCode: _postcodeController.text.trim(),
-                        projectStatus: _status,
-                        projectDueDate: _dueDate,
-                        projectCreatedDate: DateTime.now().toString(),
-                        primaryClientName:
-                            _primaryClientNameController.text.trim(),
-                        primaryClientEmail:
-                            _primaryClientEmailController.text.trim(),
-                        primaryClientPhone:
-                            _primaryClientPhoneController.text.trim(),
-                        secondaryClientName:
-                            _secondaryClientNameController.text.trim(),
-                        secondaryClientEmail:
-                            _secondaryClientEmailController.text.trim(),
-                        secondaryClientPhone:
-                            _secondaryClientPhoneController.text.trim(),
-                        projectNotes: "",
-                        tasks: [],
-                        labourCosts: {},
-                        materialCosts: {},
-                        totalCosts: 0.0,
-                      );
-
-                      // Save to Firestore
-                      await db.addProject(project: project);
-                      // ignore: use_build_context_synchronously
-                      Navigator.pop(context);
-                      showMessage("Project added!");
-                      // ignore: use_build_context_synchronously
-                      Beamer.of(context).beamToNamed('/projects');
-                    } catch (e) {
-                      // ignore: use_build_context_synchronously
-                      Navigator.pop(context);
-                      showMessage(e.toString());
-                    }
                   },
                   child: const Text(
                     'Add Project',
