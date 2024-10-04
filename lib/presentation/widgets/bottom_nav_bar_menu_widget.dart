@@ -26,7 +26,7 @@ class _BottomNavBarMenuWidgetState extends State<BottomNavBarMenuWidget> {
     return InkWell(
       borderRadius: BorderRadius.circular(24),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width / 5 - 4,
+        width: MediaQuery.of(context).size.width / 5, //-4
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
