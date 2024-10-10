@@ -1,4 +1,4 @@
-package com.o2tech.ecowise_planner
+package com.example.ecowise_planner
 
 import io.flutter.embedding.android.FlutterActivity
 
