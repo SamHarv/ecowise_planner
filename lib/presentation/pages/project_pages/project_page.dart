@@ -16,7 +16,7 @@ import '../../../domain/model/project_model.dart';
 
 // TODO 99: Add budget implementation? Check with Darc
 
-// TODO 00: Add bottom nav bar with Schedule (tasks & subtasks), plans and selections
+// TODO 00: Create temp pages for bottom nav bar items: Schedule (tasks & subtasks), plans and selections
 // (links to drive), labour (recordings will ideally go to excel proposals),
 // proposals (limited access, link to drive for quote, excel costings of labour,
 // excel costings of material (read off receipt), invoices), project management
@@ -1257,13 +1257,13 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // TODO: Implement sub-project pages
+            // TODO 00: Implement sub-project pages
             BottomNavBarMenuWidget(
               index: 0,
               icon: Icons.home,
               label: 'Schedule',
               navDestination:
-                  'project-page', // TODO: need to ensure it links to this project!
+                  'project-page', // TODO 00: need to ensure it links to this project!
             ),
             BottomNavBarMenuWidget(
               index: 1,
@@ -1295,7 +1295,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     );
     // no bottom nav bar, just back button up top
   }
-  // TODO:
+  // TODO 00:
   // Schedule (with tasks)
   // Plans (link to drive)
   // Proposals (link to drive)

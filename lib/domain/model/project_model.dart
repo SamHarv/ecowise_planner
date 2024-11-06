@@ -20,7 +20,7 @@ class Project {
   final List<dynamic> tasks;
   final Map<String, dynamic> labourCosts;
   final Map<String, dynamic> materialCosts;
-  final double totalCosts;
+  final num totalCosts;
   // attachments ??
   // Quotes & Invoices??
 

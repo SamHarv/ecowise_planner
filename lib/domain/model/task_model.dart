@@ -13,7 +13,7 @@ class Task {
   final Map<String, dynamic>
       labourCosts; // need to be able to generate to spreadsheet
   final Map<String, dynamic> materialCosts;
-  final double totalCosts;
+  final num totalCosts;
   // attachments ??
 
   Task({
