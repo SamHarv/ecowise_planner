@@ -135,7 +135,7 @@ class _ProjectsPageState extends ConsumerState<ProjectsPage> {
                 ),
                 onTap: () {
                   Beamer.of(context).beamToNamed(
-                    '/project-page',
+                    '/schedule-page',
                     data: project,
                   );
                 },

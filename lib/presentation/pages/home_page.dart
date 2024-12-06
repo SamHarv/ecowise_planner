@@ -8,14 +8,14 @@ import '../widgets/custom_bottom_nav_bar_widget.dart';
 
 // tab for finance
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class ResourcesPage extends ConsumerStatefulWidget {
+  const ResourcesPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends ConsumerState<ResourcesPage> {
   String companyName = "Loading...";
   Future<void> getCompanyName() async {
     final db = ref.read(firestore);
@@ -45,7 +45,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           bottom: BorderSide(color: Colors.grey, width: 1.0),
         ),
         centerTitle: false,
-        title: Text(companyName),
+        title: Text('$companyName - Resources'),
       ),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -87,54 +87,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Tasks'),
-                          Text('- Task title/ description'),
-                          Text('- Daily/ weekly/ monthly/ yearly view'),
-                          Text('- Planned/ in progress/ complete'),
-                          Text('- Stakeholder information'),
-                          Text('- Start date, due date'),
-                          Text('- Assigned to'),
-                          Text('- Task costings - link to project costings'),
-                          Text('- Employment labour'),
-                          Text('- Gantt chart and calendar access under '
-                              'projects and tasks pages'),
-                          Text('- Link to project'),
-                          Text('- Search Functionality'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                gapH20,
-                Container(
-                  height: 300,
-                  width: mediaWidth * 0.8,
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      width: 1.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Projects'),
-                          Text('- High level description'),
-                          Text('- Stakeholder information'),
-                          Text('- Start date, due date'),
-                          Text('- Budget'),
-                          Text('- Job costings under projects page'),
-                          Text('- Employment labour'),
-                          Text('- Gantt chart and calendar access under '
-                              'projects and tasks pages'),
-                          Text('- Client view'),
-                          Text('- Link to tasks'),
-                          Text('- Search Functionality'),
+                          Text('Resources Page Coming Soon'),
                         ],
                       ),
                     ),

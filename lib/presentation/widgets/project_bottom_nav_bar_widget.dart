@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'bottom_nav_bar_menu_widget.dart';
 
-class CustomBottomNavBarWidget extends StatefulWidget {
-  const CustomBottomNavBarWidget({super.key});
+List<bool> projIsSelected = [true, false, false, false, false];
+
+class ProjectBottomNavBarWidget extends StatefulWidget {
+  const ProjectBottomNavBarWidget({super.key});
 
   @override
-  State<CustomBottomNavBarWidget> createState() =>
-      _CustomBottomNavBarWidgetState();
+  State<ProjectBottomNavBarWidget> createState() =>
+      _ProjectBottomNavBarWidgetState();
 }
 
-class _CustomBottomNavBarWidgetState extends State<CustomBottomNavBarWidget> {
+class _ProjectBottomNavBarWidgetState extends State<ProjectBottomNavBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,38 +37,32 @@ class _CustomBottomNavBarWidgetState extends State<CustomBottomNavBarWidget> {
           BottomNavBarMenuWidget(
             index: 0,
             icon: Icons.task,
-            label: 'Tasks',
-            navDestination: 'tasks',
-            // data: null,
+            label: 'Schedule',
+            navDestination: 'schedule-page',
           ),
           BottomNavBarMenuWidget(
             index: 1,
-            icon: Icons.dashboard,
-            label: 'Projects',
-            navDestination: 'projects',
-            // data: null,
+            icon: Icons.file_present,
+            label: 'Plans',
+            navDestination: 'plans-page',
           ),
-          // TODO 00: implement resources page - drag and drop files
           BottomNavBarMenuWidget(
             index: 2,
-            icon: Icons.storage,
-            label: 'Resources',
-            navDestination: 'resources',
-            // data: null,
+            icon: Icons.attach_money,
+            label: 'Proposals',
+            navDestination: 'proposals-page',
           ),
           BottomNavBarMenuWidget(
             index: 3,
-            icon: Icons.notifications,
-            label: 'Alerts',
-            navDestination: 'alerts',
-            // data: null,
+            icon: Icons.people,
+            label: 'Management',
+            navDestination: 'management-page',
           ),
           BottomNavBarMenuWidget(
             index: 4,
             icon: Icons.settings,
-            label: 'Settings',
-            navDestination: 'settings',
-            // data: null,
+            label: 'Info',
+            navDestination: 'project-page',
           ),
         ],
       ),

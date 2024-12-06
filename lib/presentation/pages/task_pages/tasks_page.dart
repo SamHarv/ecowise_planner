@@ -156,6 +156,10 @@ class _TasksPageState extends ConsumerState<TasksPage> {
                                 data: task,
                               );
                             },
+                            trailing: Text(
+                              project.projectTitle,
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           );
                         });
                   }).toList(),
@@ -221,6 +225,10 @@ class _TasksPageState extends ConsumerState<TasksPage> {
                                 data: task,
                               );
                             },
+                            trailing: Text(
+                              project.projectTitle,
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           );
                         });
                   }).toList(),
@@ -281,6 +289,10 @@ class _TasksPageState extends ConsumerState<TasksPage> {
                                 data: task,
                               );
                             },
+                            trailing: Text(
+                              project.projectTitle,
+                              style: const TextStyle(fontSize: 14),
+                            ),
                           );
                         });
                   }).toList(),

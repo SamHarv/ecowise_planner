@@ -8,12 +8,14 @@ class BottomNavBarMenuWidget extends StatefulWidget {
   final IconData icon;
   final String label;
   final String navDestination;
+  // final Project? data;
   const BottomNavBarMenuWidget({
     super.key,
     required this.index,
     required this.icon,
     required this.label,
     required this.navDestination,
+    // required this.data,
   });
 
   @override
@@ -40,15 +42,19 @@ class _BottomNavBarMenuWidgetState extends State<BottomNavBarMenuWidget> {
             Text(
               widget.label,
               style: TextStyle(
-                color: isSelected[widget.index] == true
-                    ? Colors.green
-                    : Colors.white,
-              ),
+                  color: isSelected[widget.index] == true
+                      ? Colors.green
+                      : Colors.white,
+                  fontSize: 12),
             ),
           ],
         ),
       ),
       onTap: () {
+        // widget.data != null
+        //     ? Beamer.of(context)
+        //         .beamToNamed('/${widget.navDestination}, data: ${widget.data}')
+        // :
         Beamer.of(context).beamToNamed('/${widget.navDestination}');
         setState(() {
           for (int i = 0; i < isSelected.length; i++) {

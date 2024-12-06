@@ -26,29 +26,3 @@ class CustomDropdownMenuWidget extends ConsumerWidget {
     );
   }
 }
-
-// TextField(
-//         controller: textController,
-//         textInputAction: TextInputAction.next,
-//         textCapitalization: textCapitalization,
-//         decoration: InputDecoration(
-//           labelText: hintText,
-//           floatingLabelStyle: TextStyle(
-//             color: Colors.grey[500],
-//           ),
-//           border: const OutlineInputBorder(
-//             borderSide: BorderSide(
-//               color: Colors.grey,
-//             ),
-//           ),
-//           focusedBorder: const OutlineInputBorder(
-//             borderSide: BorderSide(
-//               color: Colors.white,
-//             ),
-//           ),
-//           hintText: hintText,
-//           hintStyle: TextStyle(
-//             color: Colors.grey[500],
-//           ),
-//         ),
-//       ),

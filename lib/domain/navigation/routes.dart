@@ -8,8 +8,12 @@ import '../../presentation/pages/company_rego_pages/company_registration_page.da
 import '../../presentation/pages/auth_pages/forgot_password_page.dart';
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/company_rego_pages/join_company_page.dart';
+import '../../presentation/pages/project_pages/management_page.dart';
 import '../../presentation/pages/project_pages/project_page.dart';
 import '../../presentation/pages/project_pages/projects_page.dart';
+import '../../presentation/pages/project_pages/plans_page.dart';
+import '../../presentation/pages/project_pages/proposals_page.dart';
+import '../../presentation/pages/project_pages/schedule_page.dart';
 import '../../presentation/pages/search_page.dart';
 import '../../presentation/pages/settings_page.dart';
 import '../../presentation/pages/auth_pages/sign_in_page.dart';
@@ -31,12 +35,12 @@ final routerDelegate = BeamerDelegate(
       : '/tasks', // check auth status and redirect to '/home' or '/login'
   locationBuilder: RoutesLocationBuilder(
     routes: {
-      '/home': (context, state, data) {
+      '/resources': (context, state, data) {
         return const BeamPage(
-          key: ValueKey('home'),
+          key: ValueKey('resources'),
           type: BeamPageType.noTransition,
           title: 'Project Planner',
-          child: HomePage(),
+          child: ResourcesPage(),
         );
       },
       '/sign-in': (context, state, data) {
@@ -152,6 +156,41 @@ final routerDelegate = BeamerDelegate(
           type: BeamPageType.noTransition,
           title: 'Alerts',
           child: AlertsPage(),
+        );
+      },
+      '/plans-page': (context, state, data) {
+        return BeamPage(
+          key: const ValueKey('plans-page'),
+          type: BeamPageType.noTransition,
+          title: '$data.projectTitle',
+          child: PlansPage(project: data as Project, projectID: data.projectID),
+        );
+      },
+      '/proposals-page': (context, state, data) {
+        return BeamPage(
+          key: const ValueKey('proposals-page'),
+          type: BeamPageType.noTransition,
+          title: '$data.projectTitle',
+          child: ProposalsPage(
+              project: data as Project, projectID: data.projectID),
+        );
+      },
+      '/management-page': (context, state, data) {
+        return BeamPage(
+          key: const ValueKey('management-page'),
+          type: BeamPageType.noTransition,
+          title: '$data.projectTitle',
+          child: ManagementPage(
+              project: data as Project, projectID: data.projectID),
+        );
+      },
+      '/schedule-page': (context, state, data) {
+        return BeamPage(
+          key: const ValueKey('schedule-page'),
+          type: BeamPageType.noTransition,
+          title: '$data.projectTitle',
+          child:
+              SchedulePage(project: data as Project, projectID: data.projectID),
         );
       },
     },

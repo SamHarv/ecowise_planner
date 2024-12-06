@@ -78,7 +78,7 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
   String _schedule = "";
   List<dynamic> assignedTo = [];
   String _status = "";
-  String _dueDate = "";
+  String _dueDate = DateTime.now().toString();
 
   void showMessage(String message) {
     showDialog(
@@ -187,42 +187,43 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
               ),
               gapH20,
               FutureBuilder(
-                  future: getProjects(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text('An error occurred! ${snapshot.error}'),
-                      );
-                    }
-                    final projects = snapshot.data!;
-                    if (projects.isEmpty) {
-                      return const Center(
-                        child: Text('No Projects Found!'),
-                      );
-                    }
-                    return CustomDropdownMenuWidget(
-                      dropdownMenuEntries: projects.map((project) {
-                        return DropdownMenuEntry(
-                          value: project.projectID,
-                          label: project.projectTitle,
-                        );
-                      }).toList(),
-                      onSelected: (option) {
-                        if (option != null) {
-                          // setState(() {
-                          projectID = option;
-                          // });
-                        }
-                      },
-                      width: mediaWidth * 0.9,
-                      label: "Project",
+                future: getProjects(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  }),
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('An error occurred! ${snapshot.error}'),
+                    );
+                  }
+                  final projects = snapshot.data!;
+                  if (projects.isEmpty) {
+                    return const Center(
+                      child: Text('No Projects Found!'),
+                    );
+                  }
+                  return CustomDropdownMenuWidget(
+                    dropdownMenuEntries: projects.map((project) {
+                      return DropdownMenuEntry(
+                        value: project.projectID,
+                        label: project.projectTitle,
+                      );
+                    }).toList(),
+                    onSelected: (option) {
+                      if (option != null) {
+                        // setState(() {
+                        projectID = option;
+                        // });
+                      }
+                    },
+                    width: mediaWidth * 0.9,
+                    label: "Project",
+                  );
+                },
+              ),
               gapH20,
               Container(
                 // height: 200,
@@ -315,7 +316,7 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                 ),
               ),
               gapH20,
-              // TODO: Assigned to
+              // TODO 99: Assigned to
               //  Multi-select dropdown for assigning task to multiple users
               FutureBuilder(
                 future: getUsers(),
@@ -364,7 +365,7 @@ class _NewProjectPageState extends ConsumerState<NewTaskPage> {
                 ),
               ),
               gapH20,
-              // TODO 11: Implement sub tasks properly
+              // TODO 00: Implement sub tasks properly
               Container(
                 width: mediaWidth * 0.9,
                 height: 300,

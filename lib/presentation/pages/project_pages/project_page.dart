@@ -2,6 +2,7 @@ import 'package:ecowise_planner/presentation/widgets/borderless_dropdown_menu_wi
 import 'package:ecowise_planner/presentation/widgets/borderless_field_widget.dart';
 import 'package:ecowise_planner/presentation/widgets/custom_dialog_widget.dart';
 import 'package:ecowise_planner/presentation/widgets/custom_field_widget.dart';
+import 'package:ecowise_planner/presentation/widgets/project_bottom_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beamer/beamer.dart';
@@ -15,11 +16,6 @@ import '../../state_management/providers.dart';
 import '../../../domain/model/project_model.dart';
 
 // TODO 99: Add budget implementation? Check with Darc
-
-// TODO 00: Create temp pages for bottom nav bar items: Schedule (tasks & subtasks), plans and selections
-// (links to drive), labour (recordings will ideally go to excel proposals),
-// proposals (limited access, link to drive for quote, excel costings of labour,
-// excel costings of material (read off receipt), invoices), project management
 
 enum CostType { labour, material }
 
@@ -65,6 +61,13 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
       'Task 18',
     ],
   };
+
+  @override
+  void initState() {
+    isSelected = [false, false, false, false, true];
+    super.initState();
+  }
+
   void showMessage(String message) {
     showDialog(
       context: context,
@@ -211,7 +214,7 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Project View"),
+        title: const Text("Project Info"),
         shape: const Border(
           bottom: BorderSide(color: Colors.grey, width: 1.0),
         ),
@@ -871,134 +874,153 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                     ),
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: FutureBuilder(
-                    future: getTasks(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text('An error occurred! ${snapshot.error}'),
-                        );
-                      }
-                      final tasks = snapshot.data!;
-                      if (tasks.isEmpty) {
-                        return const Center(
-                          child: Text('No Tasks Found!'),
-                        );
-                      }
-                      return ListView(
-                        children: [
-                          ExpansionTile(
-                            initiallyExpanded: true,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(24),
-                                topRight: Radius.circular(24),
-                              ),
-                            ),
-                            collapsedShape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(24),
-                                topRight: Radius.circular(24),
-                              ),
-                            ),
-                            title: const Text(
-                              "Now",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            // Tasks where due date is within one day
-                            children: tasks
-                                .where((task) =>
-                                    DateTime.parse(task.taskDueDate)
-                                        .difference(DateTime.now())
-                                        .inDays <=
-                                    1)
-                                .map<Widget>((task) {
-                              return ListTile(
-                                title: Text(task.taskHeading),
-                                subtitle: Text(
-                                    "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
-                                    "${task.taskDueDate.toString().substring(5, 7)}-"
-                                    "${task.taskDueDate.toString().substring(0, 4)}"),
-                                onTap: () {
-                                  Beamer.of(context).beamToNamed(
-                                    '/task-page',
-                                    data: task,
-                                  );
-                                },
-                              );
-                            }).toList(),
-                          ),
-                          ExpansionTile(
-                            initiallyExpanded: true,
-                            title: const Text(
-                              "Coming Up",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            // Tasks where due date is tomorrow
-                            children: tasks
-                                .where((task) =>
-                                    DateTime.parse(task.taskDueDate)
+                  child: Stack(
+                    children: [
+                      FutureBuilder(
+                        future: getTasks(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            return Center(
+                              child:
+                                  Text('An error occurred! ${snapshot.error}'),
+                            );
+                          }
+                          final tasks = snapshot.data!;
+                          if (tasks.isEmpty) {
+                            return const Center(
+                              child: Text('No Tasks Found!'),
+                            );
+                          }
+                          return ListView(
+                            children: [
+                              ExpansionTile(
+                                initiallyExpanded: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(24),
+                                    topRight: Radius.circular(24),
+                                  ),
+                                ),
+                                collapsedShape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(24),
+                                    topRight: Radius.circular(24),
+                                  ),
+                                ),
+                                title: const Text(
+                                  "Now",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                // Tasks where due date is within one day
+                                children: tasks
+                                    .where((task) =>
+                                        DateTime.parse(task.taskDueDate)
                                             .difference(DateTime.now())
                                             .inDays <=
-                                        7 &&
-                                    DateTime.parse(task.taskDueDate)
+                                        1)
+                                    .map<Widget>((task) {
+                                  return ListTile(
+                                    title: Text(task.taskHeading),
+                                    subtitle: Text(
+                                        "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                                        "${task.taskDueDate.toString().substring(5, 7)}-"
+                                        "${task.taskDueDate.toString().substring(0, 4)}"),
+                                    onTap: () {
+                                      Beamer.of(context).beamToNamed(
+                                        '/task-page',
+                                        data: task,
+                                      );
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                              ExpansionTile(
+                                initiallyExpanded: true,
+                                title: const Text(
+                                  "Coming Up",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                // Tasks where due date is tomorrow
+                                children: tasks
+                                    .where((task) =>
+                                        DateTime.parse(task.taskDueDate)
+                                                .difference(DateTime.now())
+                                                .inDays <=
+                                            7 &&
+                                        DateTime.parse(task.taskDueDate)
+                                                .difference(DateTime.now())
+                                                .inDays >
+                                            1)
+                                    .map<Widget>((task) {
+                                  return ListTile(
+                                    title: Text(task.taskHeading),
+                                    subtitle: Text(
+                                      "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                                      "${task.taskDueDate.toString().substring(5, 7)}-"
+                                      "${task.taskDueDate.toString().substring(0, 4)}",
+                                    ),
+                                    onTap: () {
+                                      Beamer.of(context).beamToNamed(
+                                        '/task-page',
+                                        data: task,
+                                      );
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                              ExpansionTile(
+                                initiallyExpanded: true,
+                                title: const Text(
+                                  "Future",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                // Tasks where due date is later
+                                children: tasks
+                                    .where((task) =>
+                                        DateTime.parse(task.taskDueDate)
                                             .difference(DateTime.now())
                                             .inDays >
-                                        1)
-                                .map<Widget>((task) {
-                              return ListTile(
-                                title: Text(task.taskHeading),
-                                subtitle: Text(
-                                  "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
-                                  "${task.taskDueDate.toString().substring(5, 7)}-"
-                                  "${task.taskDueDate.toString().substring(0, 4)}",
-                                ),
-                                onTap: () {
-                                  Beamer.of(context).beamToNamed(
-                                    '/task-page',
-                                    data: task,
+                                        7)
+                                    .map<Widget>((task) {
+                                  return ListTile(
+                                    title: Text(task.taskHeading),
+                                    subtitle: Text(
+                                        "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
+                                        "${task.taskDueDate.toString().substring(5, 7)}-"
+                                        "${task.taskDueDate.toString().substring(0, 4)}"),
+                                    onTap: () {
+                                      Beamer.of(context).beamToNamed(
+                                        '/task-page',
+                                        data: task,
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            }).toList(),
+                                }).toList(),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: FloatingActionButton(
+                            backgroundColor: Colors.green,
+                            onPressed: () {
+                              Beamer.of(context).beamToNamed('/new-task');
+                            },
+                            child: const Icon(Icons.add),
                           ),
-                          ExpansionTile(
-                            initiallyExpanded: true,
-                            title: const Text(
-                              "Future",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            // Tasks where due date is later
-                            children: tasks
-                                .where((task) =>
-                                    DateTime.parse(task.taskDueDate)
-                                        .difference(DateTime.now())
-                                        .inDays >
-                                    7)
-                                .map<Widget>((task) {
-                              return ListTile(
-                                title: Text(task.taskHeading),
-                                subtitle: Text(
-                                    "Due: ${task.taskDueDate.toString().substring(8, 10)}-"
-                                    "${task.taskDueDate.toString().substring(5, 7)}-"
-                                    "${task.taskDueDate.toString().substring(0, 4)}"),
-                                onTap: () {
-                                  Beamer.of(context).beamToNamed(
-                                    '/task-page',
-                                    data: task,
-                                  );
-                                },
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      );
-                    },
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 gapH20,
@@ -1239,70 +1261,22 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        width: double.infinity,
-        height: 100,
-        decoration: const BoxDecoration(
-          color: Colors.black54,
-          border: Border(
-            top: BorderSide(
-              color: Colors.grey,
-              width: 1.0,
+          width: double.infinity,
+          height: 100,
+          decoration: const BoxDecoration(
+            color: Colors.black54,
+            border: Border(
+              top: BorderSide(
+                color: Colors.grey,
+                width: 1.0,
+              ),
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
             ),
           ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // TODO 00: Implement sub-project pages
-            BottomNavBarMenuWidget(
-              index: 0,
-              icon: Icons.home,
-              label: 'Schedule',
-              navDestination:
-                  'project-page', // TODO 00: need to ensure it links to this project!
-            ),
-            BottomNavBarMenuWidget(
-              index: 1,
-              icon: Icons.task,
-              label: 'Plans',
-              navDestination: 'plans',
-            ),
-            BottomNavBarMenuWidget(
-              index: 2,
-              icon: Icons.dashboard,
-              label: 'Proposals',
-              navDestination: 'proposals',
-            ),
-            BottomNavBarMenuWidget(
-              index: 3,
-              icon: Icons.settings,
-              label: 'Management',
-              navDestination: 'management',
-            ),
-            BottomNavBarMenuWidget(
-              index: 4,
-              icon: Icons.settings,
-              label: 'Labour',
-              navDestination: 'labour',
-            ),
-          ],
-        ),
-      ),
+          child: const ProjectBottomNavBarWidget()),
     );
-    // no bottom nav bar, just back button up top
   }
-  // TODO 00:
-  // Schedule (with tasks)
-  // Plans (link to drive)
-  // Proposals (link to drive)
-  // Project Management (link to drive, Selections under here)
-  // Labour (link to excel)
-
-  // Resources instead of Home page
-
-//  Drag & Drop/ choose from device & button to link
 }
